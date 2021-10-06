@@ -1,0 +1,31 @@
+To make the Cloud Front not to Cache the files
+
+Step 1: Click on the Ditribution
+Step 2: Click on the behaviour
+Step 3: select (*) and click on Edit Button
+		Set the followings under
+		"Cache key and origin requests" 
+		Select ->Legacy cache settings 
+		->keep all the fields none
+		->under "object caching"
+			->set 
+			Minimum TTL=0
+			maximum TTL=0
+			Default TTL=0
+			
+	ElSE
+	
+		Select ->Legacy cache settings 
+		->keep all the fields "ALL"
+		->under "object caching" it will get disabled with default value 0
+DONE
+Else on safer side.
+
+Step 4: Now Come to S3
+		go to the object which you need not to be cached in the cloud front
+		Select Object -> Action -> change Metadata
+		in the keyfield use 
+		key=Cache-Control
+		value=no-cache
+	This will not make the cloud front to store the cache if the "Use origin cache headers" is selected under 'Legacy cache settings' in cloud front as mentioned in step 3.
+	

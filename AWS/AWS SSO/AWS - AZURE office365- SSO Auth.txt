@@ -1,0 +1,69 @@
+SCIM Endpoint
+ https://scim.us-east-1.amazonaws.com/f3v7c01f9ab-cc83-433e-a7ff-9ac0d362e2b6/scim/v2/
+ Access token:
+ 5c539839-e4b9-4ad1-b88d-793809d59bcd:f3733c14-0a16-4613-95f9-cadd1bc289a0:1uml3BeV/P7+M2n1YzGJ0YKrRZePwUqrI4OZP3i1kqFBDQ2uol6urw+Pwd4Xdf4mRwYaFyChJqk9UFCRGKdpiWXVclKGL+yGsMRHwpEE7hbk1MfY8yLoWbX6vHutLc9c/bMNdGSIKU1EYNDuxRrk1T7/8IdHTRVYUyI=:ba1gfG98q9oH7fi2CoJz4rZ/BWzfjiiyGW9XO46F8o3zSZYcAUSXNGzeJ5G4mAvjxOqd1m0X3o7XWBqbheMruwaFeREhsY2jJLbABso7qh/dyvzSamawDrZ+peOywwiA0zL/cAMekMQqyo9Y5cWeWj0akviXGVMGYdtgCE5/ybL2hFWQvBT6CL3uouIMxjUW/foJLsLjxHGO+9nVZnXNrUXGTVilLzG9ZyS7Vkjj5y+fe1vhgnPAh2z2rsAjXVBGbSeJoVkVo9ID4Xb7oxT90UdZ3hf/v2rcvMiwmkSQPj2+yy5xIQ1NdC4n29Q7gNOJgukOAuHgb+ZtI2i5/izeng==
+
+
+--------------------------------------------------------
+
+To Enable the SSO login Follow the following steps
+
+Step 1: Go to AWS organization ->settings -> Click on Begin process to enable all features button -> Enable all Features >Finilize
+Step 2: once done, Come to AWS SSO home page and click on "Enable SSO" button. This will take nearly 30 seconds to 1 minute
+Step 3: Go inside the AWS SSO and change the Identity source by clicking on "change" link and select the "External identity provider" radio button
+Step 4: once the "External identity provider" radio button is selected, download the "AWS SSO SAML metadata" and keep it safely.
+Step 5: Now upload the metdata file obtained from AZURE (as on Step 5 in azure steps below) to "Identity provider metadata" -> "IdP SAML metadata*" on the same page above.
+
+Step 6: Click on Review
+Step 7: Type "ACCEPT" and click on "Change identity source"
+Step 8: now click on "Enable Automatic Provisioning" on same page and note down the details (NOTE: This info will be displayed only on one time)
+Step 9: Now go to Azure Steps and do the Azure step 7
+
+
+
+
+
+On AZURE AD
+Step 1: Navigated to AD -> Enterprise Application-> click on legeacy app galary experience->Non-Galery Application->Give Application Name "Apptium-AWS-SSO"
+Step 2: Once done with Step 1, on left hand side, under Manage menu click Single Single-sign-on
+Step 3: Select SAML->Select upload Metadata file
+Step 4: upload the metadata file downloaded from Amazon (as on step4in aws steps above) and click on Save 
+Step 4.5: Now Completely move out of directory(Enterprise application) then again come to application and click on single-sign-on.
+Step 5: Now, on same page, on 3rd box (SAML Signing Certificate) download the "Federation Metadata XML" by clicking on download link. Once the file is downloaded please keep it safely.
+Step 6: Now Go to AWS steps and do the step 5.
+Step 7:on Azure application, on left hand side menu, under manage->provisioning->Get Started
+Step 8: Provisioning mode -> Automatic
+		Tenant URL ->URL obtained on AWS step 8 SCIM URL
+		Token -> URL obtained on AWS step 8 Token
+		Click on Test Connection.
+		If connection is Success then Save it.
+		SAVE it
+		
+Step 9: on Azure application, on left hand side menu, under manage->Users and Groups
+		Add the Users and groups that need to be authenticated.
+		
+Step 10: on Azure application, on left hand side menu, under manage->provisioning, Click on "Start Provisioning" on Top
+         Now all the users are transfered to AWS sso who were added in the users and group section of Azure
+		 NOTE: On initial setup first add users and click on start provisioning.
+				If you click on start provisioning and then if you add the users, it may take another 40 minutes to add users to AWS SSO page
+----------------------------------------------------------------------------
+####################
+Azure Provisioning Troubleshoting.
+Scenario: Some times there is a issue with the Azure user will not be provisioned to AWS SSO.
+			This might be because of Azure user is passing multiple values to AWS 
+			For Eg: we faced that Nishit is passing two mobile numbers but AWS sso accepts only one.
+			So we need to stop sending one value to the AWS SSO.
+			This can be done by 'Azure AD Enterprise Application' -> Provisioning -> Manage Provisioning -> Edit attribute mappings -> Expand Mappings dropdown and  click on 'Provision Azure Active Directory Users'
+			Now Delete the required field that you dont want to send to AWS SSO.
+			Then Save.
+	Now on new provisioning, the user will be sent to AWS sso
+
+######################
+Error msg while accessing VM through Session Manager
+User: arn:aws:sts::155682683299:assumed-role/AWSReservedSSO_OPS-TEAM_930a5ed2d0151018/vnagarajan@apptium.com is not authorized to perform: ssm:StartSession on resource: arn:aws:ec2:ca-central-1:155682683299:instance/i-0039091551965a3e4
+
+AWS Troubleshooting links
+https://aws.amazon.com/blogs/security/how-to-easily-identify-your-federated-users-by-using-aws-cloudtrail/
+				
+				
+			

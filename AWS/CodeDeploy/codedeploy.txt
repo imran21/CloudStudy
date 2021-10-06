@@ -1,0 +1,6 @@
+yum install ruby
+wget https://bucket-name.s3.region-identifier.amazonaws.com/latest/install
+
+wget https://aws-codedeploy-ap-southeast-1.s3.ap-southeast-1.amazonaws.com/latest/install
+chmod 755 install
+./install auto

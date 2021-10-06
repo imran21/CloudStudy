@@ -1,0 +1,7 @@
+How do I share AWS Secrets Manager secrets between AWS accounts?
+Storing the access key and secrets securly
+https://docs.aws.amazon.com/general/latest/gr/aws-access-keys-best-practices.html
+
+
+How to integrate jira with Jenkins(https://www.youtube.com/watch?v=JX7DhlU8J3Q)
+Triggering Jenkins build via status change of JIRA ticket

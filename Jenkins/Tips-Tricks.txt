@@ -1,0 +1,6 @@
+When Jenkins job is trying to install new JDK each time, please follow the below 
+
+
+Go to Manage Jenkins -> Global tool configuration and check the configuration for JDK in JDK installation.
+
+Uncheck the install automatically checkbox as this will be forcing jdk installations on every slave.

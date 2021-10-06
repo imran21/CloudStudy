@@ -1,0 +1,7 @@
+Attriubute based sso tagging
+https://aws.amazon.com/blogs/aws/new-attributes-based-access-control-with-aws-single-sign-on/
+
+
+AutoTag the resource
+https://aws.amazon.com/blogs/mt/auto-tag-aws-resources/
+

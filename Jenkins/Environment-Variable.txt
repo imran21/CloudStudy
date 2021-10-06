@@ -1,0 +1,40 @@
+echo "BUILD_NUMBER" :: %BUILD_NUMBER%
+echo "BUILD_ID" :: %BUILD_ID%
+echo "BUILD_DISPLAY_NAME" :: %BUILD_DISPLAY_NAME%
+echo "JOB_NAME" :: %JOB_NAME%
+echo "JOB_BASE_NAME" :: %JOB_BASE_NAME%
+echo "BUILD_TAG" :: %BUILD_TAG%
+echo "EXECUTOR_NUMBER" :: %EXECUTOR_NUMBER%
+echo "NODE_NAME" :: %NODE_NAME%
+echo "NODE_LABELS" :: %NODE_LABELS%
+echo "WORKSPACE" :: %WORKSPACE%
+echo "JENKINS_HOME" :: %JENKINS_HOME%
+echo "JENKINS_URL" :: %JENKINS_URL%
+echo "BUILD_URL" ::%BUILD_URL%
+echo "JOB_URL" :: %JOB_URL%
+
+BUILD_NUMBER :: 17
+BUILD_ID :: 17
+BUILD_DISPLAY_NAME :: #17
+JOB_NAME :: Singtel-Deploy-Dev/Clone-Test
+JOB_BASE_NAME :: Clone-Test
+BUILD_TAG :: jenkins-Singtel-Deploy-Dev-Clone-Test-17
+EXECUTOR_NUMBER :: 0
+NODE_NAME :: master
+NODE_LABELS :: master
+WORKSPACE :: /var/lib/jenkins/workspace/Singtel-Deploy-Dev/Clone-Test
+JENKINS_HOME :: /var/lib/jenkins
+JENKINS_URL :: https://cicd.apptium.com/
+BUILD_URL ::https://cicd.apptium.com/job/Singtel-Deploy-Dev/job/Clone-Test/17/
+JOB_URL :: https://cicd.apptium.com/job/Singtel-Deploy-Dev/job/Clone-Test/
+
+
+
+Security groups-singtel_dev_sg. 
+VPC ID - vpc-02d1347bedc2faca6 (singtel_dev_vpc)
+AMI ID- singtel_staging_appinstance (ami-03ca28b301d9aec36)
+Subnet ID - subnet-0def677d626730684 (dev_stnp_pri_sub_az1a_10.29.2.128/26)
+
+IAM role -role-for-ssm
+
+Key pair name -singtel-dev

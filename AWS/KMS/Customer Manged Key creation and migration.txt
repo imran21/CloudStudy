@@ -1,0 +1,129 @@
+KMS key sharing cross account
+VPC pearing same account and cross account
+
+Once the Key is created it can not be shared. The key has to be shared at the key creation time itself.
+If you want to share the already existing key then we need to edit the Key policy of the particular key.
+
+Let me explain to create key and share with another account
+Step 1: Login to AWS KMS and click on Customer Managed Keys(CMK)
+Step 2: Click on create key and choose Symmentric and choose KMS
+Step 3: Enter the name of the Key in Alias field.
+Step 4: Select the user to administrate the key.
+        Here I will select the root user and any user name who can administrate.
+Step 5: Again select user or role to manage the key 
+        And Enter target account number in the below box(Add another AWS Account) for other accout users to access the key
+		You will get an ARN of the Target account.
+		If you want any specific user to access that key, you need to enter the specific ARN of that account users.
+Step 6: On clicking on Next you will get the key Policy in JSON format. 
+        You can add specific target account user ARN here.
+Example Policy JSON Below
+{
+    "Version": "2012-10-17",
+    "Id": "key-consolepolicy-3",
+    "Statement": [
+        {
+            "Sid": "Enable IAM User Permissions",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::120763833592:root"
+            },
+            "Action": "kms:*",
+            "Resource": "*"
+        },
+        {
+            "Sid": "Allow access for Key Administrators",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": [
+                    "arn:aws:iam::120763833592:user/Imran",
+                    "arn:aws:iam::120763833592:user/Hemanth",
+                    "arn:aws:iam::120763833592:user/mimubarakali@apptium.com"
+                ]
+            },
+            "Action": [
+                "kms:Create*",
+                "kms:Describe*",
+                "kms:Enable*",
+                "kms:List*",
+                "kms:Put*",
+                "kms:Update*",
+                "kms:Revoke*",
+                "kms:Disable*",
+                "kms:Get*",
+                "kms:Delete*",
+                "kms:TagResource",
+                "kms:UntagResource",
+                "kms:ScheduleKeyDeletion",
+                "kms:CancelKeyDeletion"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "Allow use of the key",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": [
+                    "arn:aws:iam::155682683299:user/mimubarakali",
+                    "arn:aws:iam::155682683299:root"
+                ]
+            },
+            "Action": [
+                "kms:Encrypt",
+                "kms:Decrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*",
+                "kms:DescribeKey"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "Allow attachment of persistent resources",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": [
+                    "arn:aws:iam::155682683299:user/mimubarakali",
+                    "arn:aws:iam::155682683299:root"
+                ]
+            },
+            "Action": [
+                "kms:CreateGrant",
+                "kms:ListGrants",
+                "kms:RevokeGrant"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "Bool": {
+                    "kms:GrantIsForAWSResource": "true"
+                }
+            }
+        }
+    ]
+}
+
+
+
+On the Target account for the specificuser who want to access this CMKs, Add the below  IAM policy and attach to that particular user
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Stmt1621605712309",
+            "Action": [
+                "kms:Decrypt",
+                "kms:DescribeKey",
+                "kms:Encrypt",
+                "kms:GenerateDataKey"
+            ],
+            "Effect": "Allow",
+            "Resource": "arn:aws:kms:ca-central-1:120763833592:key/be0c63dd-294a-4d7f-9b7b-ba5df4347b5a"
+        }
+    ]
+}
+
+Note: The above resource mention in the IAM on target account is the ARN of the CMKs created in source account.
+Note: The above IAM can be created in AWS online policy generator
+
+Once the above process is completed, we can able to search the source account CMKs in the target account.
+
+
+

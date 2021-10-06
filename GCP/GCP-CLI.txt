@@ -1,0 +1,50 @@
+
+gcloud organizations list
+gcloud organizations get-iam-policy 17297221959
+gcloud beta asset search-all-iam-policies --query policy:"roles/owner" --project $your_project_id --flatten="results[].policy[]" --format="csv(bindings.members[0])"
+gcloud projects get-iam-policy $projectname
+
+gcloud auth list
+gcloud config set account 'mimubarakali@apptium.com'
+gcloud auth login --no-launch-browser
+gcloud projects list
+gcloud config get-value project
+gcloud config set project 'project-id'
+
+gcloud iam service-accounts list 
+gcloud projects get-iam-policy <Project-Name> //list all service acounts and policy 
+
+gcloud sql instances list
+gcloud compute instances list
+
+--------------------------------------
+GKE Containers ->https://cloud.google.com/sdk/gcloud/reference/container/clusters/list
+
+gcloud container clusters list
+
+-------------------------------------
+Ref:- https://cloud.google.com/storage/docs/configuring-cors#gsutil_2
+Setting the CORS orgin for bucket
+CORS.json file
+[
+    {
+      "origin": ["https://cms.xl.id.apptium.com", "http://localhost:8080"],
+      "method": ["GET"],
+      "responseHeader": ["*"],
+      "maxAgeSeconds": 3600
+    }
+]
+Then give the following command in gcp cmd cli to set the CORS for bucket
+>gsutil cors set E:\KP\axiata-dev-cms-CORS.json gs://axiata-dev-cms
+
+To view the CORS of a bucket
+>gsutil cors get gs://axiata-dev-cms
+
+To Remove CORS orgin
+CORS.json file
+[]
+Then enter the same command for setting the CORS
+>gsutil cors set E:\KP\CORS.json gs://axiata-dev-cms
+
+
+

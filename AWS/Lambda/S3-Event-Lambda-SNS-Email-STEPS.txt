@@ -1,0 +1,54 @@
+Scenario,
+When there is any update in S3 bucket the An event has to get generated and sent to lambda and then sent to SNS mail notification.
+
+CREATING the BUCKET with Event notification
+Step 1: Create an bucket
+Step 2: Go to Bucket->properties->Event notifications->Create Event notifications-
+Step 3: Select the events which the notification would be trigred 
+Step 5: Choose the Labda function as destination
+Step 6: Choose the Lambda function.
+Step 7: On Selecting the lambda function an role would be created with the name of "Event name"
+		Make sure you delete the role after done with Lambda demo
+
+
+CREATING the LAMBDA Function
+Step 1: Go to Lambda console
+Step 2: Create a lambda name and runtime language -> python3.7
+Stpe 3: Choose Default execution role
+		Select->Create a new role with basic lambda permission
+		This will create an new role with name <mylambdaFunctionName>-role-6xxxxxjv
+		NOTE: by default this will not having the permission to send SNS Publish permission. It will have only permission to cloudwatch log 
+		Please add the publish permission by manuall going to IAM page ->navigate to <mylambdaFunctionName>-role-6xxxxxjv Role
+		And Attach "AWSSNSFullAccess"
+Step 4:Now Enter the code, A demo code has been provided below.
+
+CREATING SNS Topic
+Step 1: Go to SNS Topic Console
+Step 2: Select "Create Topic" -> Select Standard -> Give Topic name.
+Step 3: Select Access policy-> select the follwoing
+		Define who can publish messages to the topic -> Everyone
+		Define who can subscribe to this topic -> Everyone
+Step 4: Click on "Create Topic"
+		
+DONE
+Any PUT or DELETE action on s3 will send you the SNS notification
+-----------------
+CODE SNIPPET
+-----------
+import json
+import urllib.parse
+import boto3
+print('Loading function')
+def lambda_handler(event, context):
+    print("Received event: " + json.dumps(event, indent=2))
+
+    # Get the object from the event and show its content type
+    bucket = event['Records'][0]['s3']['bucket']['name']
+    key = urllib.parse.unquote_plus(event['Records'][0]['s3']['object']['key'], encoding='utf-8')
+    print(bucket)
+    
+    client = boto3.client('sns')
+    response = client.publish(
+    TopicArn='arn:aws:sns:us-east-1:194518981178:s3-lambda-demo-SNS',
+    Message="This Bucket "+bucket+" has an update ",
+    Subject='TestMsg' );

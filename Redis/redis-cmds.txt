@@ -1,0 +1,90 @@
+
+To start redis server
+>redis-server 
+To Start redis server in background
+>redis-server --daemonize yes
+
+To get into redis console.
+>redis-cli
+
+To get into remote redis console
+>redis-cli -h <Remote-IP> -p <Remote-port>
+
+to check wheather redis server is running.
+> ps aux | grep redis-server
+
+To stop the redis server
+>redis-cli shutdown
+----------------------
+To accept redis connection from all clients
+go to /etc/redis.conf
+change (Comment it)
+bind 127.0.0.1
+To
+# bind 127.0.0.1
+
+AND
+protected-mode yes
+To
+protected-mode no
+
+-------------
+
+Examples:
+       ./redis-server (run the server with default conf)
+       ./redis-server /etc/redis/6379.conf
+       ./redis-server --port 7777
+       ./redis-server --port 7777 --slaveof 127.0.0.1 8888
+       ./redis-server /etc/myredis.conf --loglevel verbose
+
+------------
+
+redis.conf in /etc/redis.conf
+=====================================
+To set a key & value  in redis
+>set name imran
+
+To get a key & value in redis
+>get name
+===================================
+HASH MAP
+To store the set of collections in redis use HMSET and HGET or HGETALL
+>HMSET user_id:001 name imran age 32 location chennai job IT
+
+To get all key and values in hashmap collections in redis hash map
+>HGETALL user_id:001
+
+To get specific key and value from hashmap collections in redis hash map
+>HGET user_id:001 name
+========================================
+LIST
+Note: List can able to have duplicate values.
+To push data to a list
+>lpush todo eat
+>lpush todo drink
+>lpush todo sleep
+
+To list all data from the list
+>lrange todo 0 5
+Note: 0 is start of index 5 is end of randome index,  lrange todo <Start_Index> <End_Index>
+
+To Remove data from the list
+>lrem todo 2 drink
+Note: 2 is the serial number in the list corresponding to value "drink"
+
+
+
+=====================================================================
++++++++++++++++++++++++++
+jenkins Reference Documents
+
+#sentinel
+https://medium.com/@amila922/redis-sentinel-high-availability-everything-you-need-to-know-from-dev-to-prod-complete-guide-deb198e70ea6
+
+
+
+
+
+
+
+

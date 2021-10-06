@@ -1,0 +1,56 @@
+import json
+import urllib.parse
+import boto3
+import json
+client = boto3.client('apigateway')
+print('LAMBDA - Loading function')
+def lambda_handler(event, context):
+    print(event)
+    #print(event.rawPath)
+    deseralize_data=json.dumps(event)
+    print(deseralize_data)
+    y = json.loads(deseralize_data)
+    request_data=y["rawPath"]
+    print(request_data)
+    
+    if request_data == "/home":
+        print("Its a home")
+        client = boto3.client('sns')
+        response = client.publish(
+        TopicArn='arn:aws:sns:us-east-1:194518981178:s3-lambda-demo-SNS',
+        Message="This Bucket "+request_data+" has an update ",
+        Subject='TestMsg ->'+request_data );
+    elif request_data == "/":
+        print('Welcome')
+        client = boto3.client('sns')
+        response = client.publish(
+        TopicArn='arn:aws:sns:us-east-1:194518981178:s3-lambda-demo-SNS',
+        Message="This Bucket "+request_data+" has an update ",
+        Subject='TestMsg ->'+request_data );
+    elif request_data == "/school":
+        print('its a school')
+        client = boto3.client('sns')
+        response = client.publish(
+        TopicArn='arn:aws:sns:us-east-1:194518981178:s3-lambda-demo-SNS',
+        Message="This Bucket "+request_data+" has an update ",
+        Subject='TestMsg ->'+request_data );
+    else:
+        print("wrong selection")
+    return "you have requested "+request_data
+    
+    
+    
+    """
+    print("Received event: " + json.dumps(event, indent=2))
+
+    # Get the object from the event and show its content type
+    bucket = event['Records'][0]['s3']['bucket']['name']
+    key = urllib.parse.unquote_plus(event['Records'][0]['s3']['object']['key'], encoding='utf-8')
+    print(bucket)
+    
+    client = boto3.client('sns')
+    response = client.publish(
+    TopicArn='arn:aws:sns:us-east-1:194518981178:s3-lambda-demo-SNS',
+    Message="This Bucket "+bucket+" has an update ",
+    Subject='TestMsg' );
+    """

@@ -1,0 +1,30 @@
+Once Volume is created for the windows attache the volume to the EC2
+Then Login to the machine and do the following steps
+Step 1: go to Computer Management
+Step 2: Click on Disk Management under storage. You will see the list of volumes attached
+        
+Step 3: Righit click on the Disk button and make it Online
+		Then Again right click on the disk button and click on "Initialize Disk" and press "OK"
+Step 4: Right Click on the Volume and select "New Simple Volume" 
+		Keepon  clicking Next and select the Drive Name (Letter) and click on Finish
+		
+Now New volume is attached to the Mchine
+----------------------------
+TIPS
+in windows if you have many disk and you need to find out which disk is you want to interact with on the console.
+For that, we can use get-disk powershell command which gives you the voulme ID of the EBS volume.
+By this way we can easily navigate to the EBS volume in the AWS console
+-----------------
+
+
+
+Resizing the EBS volumes on Windows
+Step 1: go to Computer Management
+Step 2: Click on Disk Management under storage. You will see the list of volumes attached
+Step 3: Right click on the Disk Managemet and click on "Refresh"
+		You will see the new space(volume) attached to the existing space but it is not allocated or extended.
+		To do this, please follow the below step 4
+Step 4: Right click on the existing volume and click on "Extend Volume"
+		Then keep clicking on Next and lick on Finish Button
+Now the Volume has been exended
+

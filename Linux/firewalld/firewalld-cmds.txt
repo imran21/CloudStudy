@@ -1,0 +1,30 @@
+First check whether firewalld service is running with the following command:
+>sudo systemctl status firewalld
+
+If your firewalld service is not running, you can start firewalld service with the following command:
+>sudo systemctl start firewalld
+
+You can print the whole Firewalld configuration with the following command
+>sudo firewall-cmd --list-all
+
+Services port are located in - This list all the ports running
+/etc/services
+
+If you just want to see what services are allowed to have open ports, run the following command:
+>sudo firewall-cmd --list-services
+
+If you want to see only the ports that are open, run the following command
+>sudo firewall-cmd --list-ports
+
+Firewall cmd get default zones
+>firewall-cmd --get-default-zone
+
+Firewall get active zones
+>firewall-cmd --get-active-zones
+
+Friewall to set a zone after listing active zones
+>sudo firewall-cmd --set-default-zone=home
+
+Adding Ports 
+>sudo firewall-cmd --zone=public --permanent --add-port=8084/tcp
+

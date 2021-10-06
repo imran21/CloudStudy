@@ -1,0 +1,15 @@
+Two Types of Load Balancing
+1. Global Loadbalancing
+2.Regional Load balancing
+
+Global LoadBalacing: Backend end points leaves in multiple region
+
+Regional Load balancing: Backend end points leaves in a single region
+
+Another type of load balancing
+1.External LoadBalancing : Traffic coming from outside /from internet
+2.internal LoadBalancing: Traffic shared within the GCP network
+
+External LoadBalancing(Global): includes TCP, HTTP(s), SSL PROXY
+Internal LoadBalancing(Regional): includes TCP and UDP traffic
+

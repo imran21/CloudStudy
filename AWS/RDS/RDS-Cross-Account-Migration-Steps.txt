@@ -1,0 +1,30 @@
+AWS default KMS key Encrypted RDS can not be migrated to another Account
+Even KMS-Custom Manged key(CMK) need the key to be migrated to the target account before migration.
+
+The following step explains how to migrate the AWS Default KMS-Encryoted key to another account.
+
+To migrate an encrypted RDS from one account to another accont
+
+Step 1: Login to RDS and select the RDS account to be migrated
+Step 2: Take the snapshot of the RDS account
+Step 3: After Snapshot has been created copy the snapshot with new key generated 
+        (New KMS-CMK key generation and migrating the new CMK ke to the other account has been explained seprately)
+Step 4: Once the Copy snapshot has ben obtained 
+         - Select the copyied snapshot -> Action->share snapshot
+		 - Enter the target account ID->ADD
+		 Now the new snapshot has been copied to the target account
+		 
+On Target Machine
+Step 5: Login to Target machine , navigate to RDS snapshot.
+        - Under 'Shared with me' Tab you will find the RDS snapshot of source account.
+		
+Step 6: Select that snapshot and again make a copy of it.
+        -Select snapshot->Action->copy
+Step 7: Give the copy snapshot a name
+        -Select the Key which we have created in the Source account.
+		-Enter the source account KMS-CMK key ARN which we have created in the source account.
+		 (KMS-CMK key creation and migration accross account is explained in seprately)
+Step 8:  once the copied snapshot is restored to a manual snapshot it can then able to launch an new RDS
+
+Note: once the db is shared to new account we even can use the existing account kms key while restoring the DB
+

@@ -1,0 +1,30 @@
+https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse
+
+To transfer file from local machine to windows EC2 instance through winscp do the following
+By default winscp wont connect to windows. TO make it happen we need to install open ssh in windows server
+
+Step 1: login to windows EC2 machine
+Step 2: open Winodws powershell
+Step 3: Check if openssh client and server  is present by executing the below command
+		Get-WindowsCapability -Online | ? Name -like 'OpenSSH*'
+		
+Step 4 If not present intatll them using the following command
+		# Install the OpenSSH Client
+		Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0
+
+		# Install the OpenSSH Server
+		Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
+
+Step 5: Execute the step 3 to check both openssh client and server are installed
+
+Step 6: Now start the ssh by executing the below command
+		Start-Service sshd
+		
+Step 7: Open the WinSCP on your laptop
+		host:machineIP
+		Username:Windowsusername
+		Password:NIL
+		Advance->Authentication->Attach the PPK file->save
+		Login
+		Now, it will ask for password , now give yous password.
+		

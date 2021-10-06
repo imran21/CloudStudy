@@ -1,0 +1,66 @@
+$0.30/hour+Data transfer rate
+Transfer a file from local machine to S3 bucket over SFTP protocol  through WinSCP
+
+Step 1: Create an S3 Bucket
+Step 2: Create an IAM role for accessing s3 bucket from transfer family
+        Two policy
+		Bucket level policy
+		select 3
+		->List->ListBucket
+		->Read -> Get Bucket location
+		->ADD ARN -> add the bucket name
+		
+		Object level policy
+		->Read -> GetObject and GetObjectversion
+		->Write ->putObject, DeleteObject, DeleteObjectVersion
+		
+		Add ARN -> Name of the Bucket
+		Object name -> Select Any
+		
+	Then Create the policy
+Step 3: Create a role
+        - Go to roles in IAM
+		- Select AWS services -> Transfer
+		- search for custom policy and select the role
+		- Now give name to role and create a role
+		Role Creation Done
+		
+Step 4: Go To transfer family
+		
+		Select SFTP -> Click next
+		you will get three options
+		
+		-Service managed: The users are managed within the AWS transfer family
+		-AWS Directory Service-users are managed with AWS AD or on-permises AD
+		-Custom: using API gateway provides the API URL
+		
+		Now, We select the service managed -> next
+		next on Enpoint configuration,
+			We have two options - Publically accessable, VPC hosted
+			Note: SFTP is accessed publically where as FTP and FTPS is accessed over VPC
+			      FTPS is accessed over VPC via internet
+				  FTP is accessed over VPC via internal network
+		Select Public Accessable
+		Custom Hostname -> none, (if you have a domain name then you can choose that domain name else Transfer family will give you an domain name) -> Click next
+		
+		Select S3
+		Select the role for transfer family to write logs to cloudwatch
+		Click next
+		Click create Server
+		
+		
+Step 5: To create the users (Service managed users as explained in step 4)
+		-Click on the created server
+		-Click on Add User
+		-Enter user name
+		-Select S3 role as created above
+		-In Home directory Field -> select the bucket name
+	   -In SSH public key -> 
+			create a public key in any tool or in linux ssh-keygen command
+			Copy the pub key till before the username in the key
+			Past the key here in the SSH public key column
+		Now Click Add to Add the User
+		
+		
+Step 5: Configure the client in the local machine.
+		These can be donw with WinSCP of Filezila

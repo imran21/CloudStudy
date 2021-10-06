@@ -1,0 +1,9 @@
+http://www.ntweekly.com/2020/06/02/install-aws-cli-version-2-on-linux-centos/
+https://www.ntweekly.com/2020/06/02/install-aws-cli-version-2-on-linux-centos/
+
+
+>echo $PATH
+>curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+>unzip awscliv2.zip
+>sudo ./aws/install -i /usr/bin/aws-cli -b /usr/bin
+>aws --version

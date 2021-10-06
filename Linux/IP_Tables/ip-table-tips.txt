@@ -1,0 +1,11 @@
+Add redirect rule in IP tables - 443 to 8087
+sudo iptables -t nat -A PREROUTING -p tcp --dport 443 -j REDIRECT --to-port 8087
+
+list-IP tables prerouting rules
+sudo iptables -t nat -v -L PREROUTING -n --line-number
+
+Delete IP-table entries
+ sudo iptables -t nat -D PREROUTING <ip_table_rule_num>
+
+List redirecting NAT rules
+iptables -L -n -t nat

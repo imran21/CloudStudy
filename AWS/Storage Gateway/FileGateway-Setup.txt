@@ -1,0 +1,45 @@
+AWS Storage Gateway
+AWS File Gateway
+First we need to create the Storage Gateway
+Step 1: Click on create gateway ->Next 
+Step 2: Choose Amazon S3 File Gateway -> Next
+Step 3: Choose Amazon EC2 -> Launch Instances
+        Now we have to create an NFS server Instances with following configurations
+		Machine Type:m4.xlarge
+		Volume of 200GB for Cache
+		Volume of 200GB for Buffer (if it is used for volume gateway)
+		Securtity group NFS-2049
+		
+Step 4: Again do the step 1 and 2 and on Step 3 select Amazon EC2 and click on Next
+Step 5: Give the Public IP of the machine by selecting public IP
+Step 6: Now Activate the Gateway
+Step 7: Select the Disk for cache
+Step 8: Disable the logging
+Step 9: Finish
+-----------------------------
+Now Create a File Share gateway
+
+Step 1: Choose the gateway Name
+Step 2: Specify the bucket name
+Step 3: Select the protocol for accessing files(NFS)
+Step 4: Automated Cache refresh -> None(Automated cache refresh will include cost) -> Click on Next
+Step 5: Select the Storage Class
+Step 6: Add the Client IP (we have added 0.0.0.0/0 for any people to accees the storage device)
+		Leave the remaining things default
+		Click on Next and create.
+Once created, click on the created file share and you will get the mount command to mount your directory to S3 bucket
+DONE
+--------------------------------------
+--------------------------------------
+For setting up the Fileshare gateway in the VPC
+We need Two End points
+1. Storage gateway endpoint(Interface)
+2. S3 Endpoint(Gateway)
+
+Storagegatway endpoint should be in public subnet
+IMPORTANT -> Same securtity group should be used both by Storagegatway-Endpoint and NFS-GatewayServer
+NFS-GatewayServer should be in Public subnet accessable to internet
+
+
+
+		

@@ -1,0 +1,38 @@
+Cloud RUN in GCP
+The Cloud run is the serverless container service
+It runs the container with out any server support
+Pay only for the number of request we make to the service
+
+This demonstaration shows on how to launch a container on cloud run through CLI
+Create an Dockerfile that you need to have all the functionalities
+Build the dockerfile
+Launch the docker file to the cloud run and it will create the container
+
+Step 1: Create Docker file
+Step 2: Build the docker file
+		>docker build -t <image-name:tag> .
+Step 3: Now tag the docker image specific to the project
+		>docker tag <current-image-name:tag> gcr.io/<GCP-Project-id>/<image-name>:<tag>
+		#Example: docker tag service-registry gcr.io/orbitera-282006/service-registry:1
+Step 4: Now push the container to the google container registry(gcr)
+		>docker push gcr.io/<gcp-project-id>/<image-name>:<tag>
+		#Example: docker push gcr.io/orbitera-282006/service-registry:1
+		
+Step 5: Once the image has been pushed to gcr then execute the below script to launch container in cloud run
+		>gcloud run deploy service-registry --image=gcr.io/orbitera-282006/service-registry:1 \
+		--allow-unauthenticated \
+		--platform=managed \
+		--port=8761 \
+		--cpu=2 \
+		--memory=4192Mi \
+		--region=us-east1 \
+		--project=orbitera-282006
+		
+		Now, you will get an URL to the containeronce the above command is success.
+		On hitting the URL from the browser you will get the Forbidden Error. To avoid this please follow the below steps
+		
+		Now, once the above script is success a URL will be gerenrated to access the container.
+		To allow any user to have access to the URL(any user to ping from browser) need to assign permission
+		Add "AllUsers" and assign "CloudRunInvoke" permission.
+		
+

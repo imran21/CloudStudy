@@ -1,0 +1,12 @@
+EC2 instance Metadata
+login to EC2 Instance 
+http://169.254.169.254/latest/meta-data
+
+Metadata => info about the EC2 machine
+Usedata => Script executing during windows launch
+
+curl http://169.254.169.254/latest/
+
+
+Alwasy Add '/' at the end
+

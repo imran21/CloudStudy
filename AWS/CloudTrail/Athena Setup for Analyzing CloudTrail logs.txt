@@ -1,0 +1,60 @@
+
+Login to Athena and run the following query
+
+Step 1: To create the DB
+		>create database apptium_cloudtrail_db;
+Step 2: To create tables for the cloudtrail rows and colums, follow the below steps
+		Step 1: Go to cloudtrail console
+		Step 2: Click on  Event History
+		Step 3: On Left corner click on "Create Athena table"
+		Step 4: Choose the S3 bucket that contains the storage location of your logs
+		Step 5: Copy the syntax for creation cloud trail table
+		Stpe 6: you can create a table from there by clicking on the "Create table" button
+				Or, you can manually create a table in athen console.
+				Modify the table name you want.
+				 like -> CREATE EXTERNAL TABLE `apptium_cloudtrail_db.apptium_trails`
+Stpe 3: Go to Athena console , choose the db and paste the table creation query
+		(Sample Query has been included in seprate file .sql in this directory)
+		Modify the S3 Location as well
+		Run the Query, Tables get created.
+		
+Example Querires
+SELECT * FROM "apptium_cloudtrail_db"."apptium_trails" limit 10;
+SELECT eventsource, eventname FROM "apptium_cloudtrail_db"."apptium_trails";
+----------------------------------------------------------------------
+SELECT 
+    eventsource, 
+    eventname,
+    useridentity.sessioncontext.attributes.creationdate,
+    useridentity.sessioncontext.sessionissuer.arn
+FROM "apptium_cloudtrail_db"."apptium_trails"
+WHERE useridentity.sessioncontext.sessionissuer.arn IS NOT NULL
+ORDER BY eventsource, eventname;
+-------------------------------------------------------------------
+SELECT 
+	userIdentity.accountId,
+	userIdentity.accessKeyId,
+	userIdentity.userName,
+	eventName,
+	sourceIPAddress,
+    eventType,
+    userAgent
+FROM "apptium_cloudtrail_db"."apptium_trails";
+------------------------------------------------------
+SELECT userIdentity.userName FROM "apptium_cloudtrail_db"."apptium_trails" WHERE awsRegion='us-east-1' AND userIdentity.userName !='' limit 1000
+
+select userIdentity.userName FROM "apptium_cloudtrail_db"."apptium_trails" WHERE eventName='ConsoleLogin';
+select userIdentity.userName FROM "apptium_cloudtrail_db"."apptium_trails" WHERE eventType='AwsConsoleSignIn';
+
+select userIdentity.sessionContext.sessionIssuer.userName FROM "apptium_cloudtrail_db"."apptium_trails" WHERE eventType='AwsConsoleSignIn';
+----------------------------------------------
+SELECT 
+	userIdentity.accountId,
+	userIdentity.accessKeyId,
+	userIdentity.userName,
+	eventName,
+	sourceIPAddress,
+    eventType,
+    userAgent
+FROM "apptium_cloudtrail_db"."apptium_trails";
+		

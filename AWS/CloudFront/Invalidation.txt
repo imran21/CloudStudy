@@ -1,0 +1,20 @@
+CloudFront Invalidation
+
+If Cloudfront serves the content even if the content is updated in the s3
+Then use the invalidation method which invalidate the cache content and servers directly from S3 on next request.
+Step 1: Go to cloud front
+Step 2: Click on Distribution
+Step 3: Go to invalidation tab
+		give the path to be invalidated
+		/images/sch.txt
+		/images/*
+		
+	Done
+
+
+Another Method is "Cache-Busting"
+This is much more cost-efficient than invalidation method
+Example
+if you have a file in bucket demo.txt, the next updated object can be demo_1.txt and another updated object can be demo_2.txt
+So that based on query it will publish the data
+

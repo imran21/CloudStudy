@@ -1,0 +1,59 @@
+If you wan to push the custom metrics from EC2 machine to the AWS cloudwatch then do the following steps.
+
+Step 1: Launch the EC2 machine and install the aws CLI
+Step 2: Identify the metrics tha you need to send
+		In this example, I will send Memory of the EC2 machine
+		To get the memory usage value for EC2 machine, Use some shell script code to exract memory value from 'free -mh' command
+		
+		Format this values in the below CLI and execute it based on CORN job 
+		aws cloudwatch put-metric-data --metric-name Buffers --namespace MyNameSpace \
+		--unit Gigabytes --value <memory-usage-value-from-script> \
+		--dimensions InstanceID=1-23456789,InstanceType=m1.small
+		
+--namespace MyNameSpace //->  Display name in Metrics tab. Like Freedom-Dev-VM
+--dimensions InstanceID=1-23456789,InstanceType=m1.small  //-> Will display the resource name
+--metric-name Buffers -> it can be some things like name purpose,  CPU percentage, Memory usage
+--value 1 -> HighResolution data //for every second
+
+		
+IMPORTANT
+StorageResolution -> set the value 1 or 60
+1-> high resolution-> data captured every second (Higher in cost)
+	Can also set to 1, 5,15,30 value
+60 -> Low Resoultion -> Data captured every minute (Standard AWS cost)
+
+--dimensions -> its for reference of which instance ID and and what type it is
+
+
+
+
+The Below explains the values and its type to be used with CLI
+[
+  {
+    "MetricName": "string",
+    "Dimensions": [
+      {
+        "Name": "string",
+        "Value": "string"
+      }
+      ...
+    ],
+    "Timestamp": timestamp,
+    "Value": double,
+    "StatisticValues": {
+      "SampleCount": double,
+      "Sum": double,
+      "Minimum": double,
+      "Maximum": double
+    },
+    "Values": [double, ...],
+    "Counts": [double, ...],
+    "Unit": "Seconds"|"Microseconds"|"Milliseconds"|"Bytes"|"Kilobytes"|"Megabytes"|"Gigabytes"|"Terabytes"|"Bits"|"Kilobits"|"Megabits"|"Gigabits"|"Terabits"|"Percent"|"Count"|"Bytes/Second"|"Kilobytes/Second"|"Megabytes/Second"|"Gigabytes/Second"|"Terabytes/Second"|"Bits/Second"|"Kilobits/Second"|"Megabits/Second"|"Gigabits/Second"|"Terabits/Second"|"Count/Second"|"None",
+    "StorageResolution": integer
+  }
+  ...
+]
+
+Referencs: https://docs.aws.amazon.com/cli/latest/reference/cloudwatch/put-metric-data.html
+https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/publishingMetrics.html#high-resolution-metrics
+

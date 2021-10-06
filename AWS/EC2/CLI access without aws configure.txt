@@ -1,0 +1,3 @@
+On EC2 Machine configuring the access key and secret key is a risky factor.
+So to configure this from IAM role Attach the "IAMReadOnlyAccess" to the role and attach the role to the EC2 machine.
+Once the role has been attached no need of configuring the aws credentials on linux terminal

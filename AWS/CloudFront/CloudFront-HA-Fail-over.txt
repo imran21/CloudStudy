@@ -1,0 +1,28 @@
+Cloud Front high Availability
+
+To create a Failover scenario
+ie; if one bucket fails Need to serve the content from another bucket
+
+For Eg:
+s3://primary-bucket/a1.txt
+s3://secondary-bucket/a1.txt
+
+If primary bucket fail, the content has to serve from secondary bucket
+For this we have to create an Orgin Group
+
+Step 1: login to cloud front
+Step 2: Go to the distribution by clicking on it
+Step 3: Go to origin->create origin group
+Step 4: select the first origin to be primary
+		Select the second origin to be secondary
+		Give the Orgin name
+		Click create origin group to save
+Step 5: Go to Behaviour tab
+		Select the Default behaviour Default(*) -> Edit
+		choose the Orgin group name created in Step 4
+		Save
+
+To check the failover scenario, Go to primary bucket and change the file name
+Then go to invalidation tab and invalidate the path /a1.txt
+
+so on next request it directly take from S3 bucket instead of cache.

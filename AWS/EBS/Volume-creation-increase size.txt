@@ -1,0 +1,47 @@
+EBS on Linux
+
+#After attaching EBS on Linux machine need to do the following
+#For accessing the new volume
+Step 1: create an partition on the volume
+		fdisk /dev/xvdf
+		n
+		p (primary)
+		1
+		ENTER
+		ENTER
+		W
+		
+Step 2: (you will get an partition xvdf1 - Do partition on that)
+>sudo mkfs -t xfs /dev/xvdf1
+Step 3: 
+>mkdir /ebs-data
+
+Step 5:
+> mount /dev/xvdf1 /ebs-data
+
+if mkfs command not found then install the follwoing packages
+sudo yum install xfsprogs
+-----------------------------------
+
+Troubleshoot
+if you get Error on mkfs like 
+mkfs.xfs:/dev/xvdg1 appears to contain a partition table (dos).
+mkfs.xfs: Use the -f option to force overwrite.
+
+then use the following command
+>mkfs.xfs -f /dev/sdb1
+
+-----------------------------------------
+
+INCREASING THE VOLUME SIZE
+once the volume size is increased in AWS GUI, Need to execute in linux console also with some command
+xvdg    202:96   0  15G  0 disk
+└─xvdg1 202:97   0  10G  0 part
+if your partition is like this, then once your volume size is increased then execute the following command
+>sudo growpart /dev/xvdg 1   ### where xvdg is the Disk volume name and '1' is partition ID mentioned as 'part'
+After executing above commad you will get the lsbk as follwoing
+xvdg    202:96   0  15G  0 disk
+└─xvdg1 202:97   0  15G  0 part
+
+
+

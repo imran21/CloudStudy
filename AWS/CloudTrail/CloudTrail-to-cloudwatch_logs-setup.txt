@@ -1,0 +1,55 @@
+This Document is about sending cloud trail logs to Cloud watch log-group
+
+Once the Cloud Trail has been created, we can can configure cloudtrail to send trail logs to cloud watch
+Once Cloud trail is created, need to create an IAM role to send cloudtrail logs to cloud watch logs
+The IAM Role should be with the specific name format as metioned below (Before underscore is mandatory as same mentioned below)
+CloudTrailRoleforCloudWatchLogs_{Any-Name-you-like}
+Example:
+CloudTrailRoleforCloudWatchLogs_Apptium-Organization
+
+Once IAM role has been created with the above name please do the following steps below
+Step 1: Select the trail you created
+Step 2: Go inside the selected trail and go to cloudwatch log section and click on Edit
+Step 3: Then, Select the "Enable"  checkbox
+Step 4: Select "New" and provide  the Log Group Name
+		NOTE: The Log group name should be same as the name that you provided in the IAM Resource section
+		Eg: "arn:aws:logs:us-east-1:120763833592:log-group:Apptium-Organization-CloudTrail-to-Cloudwatch-logs:log-stream:120763833592_CloudTrail_us-east-1*",
+		The Value after the log-group:
+
+Step 5: Select the IAM role 'Existing'
+Step 6: Select the IAM role that you created in previous steps above this
+Step 7: Click on save changes
+		
+		NOW you could able to see the logs in the cloudwatch logs under the name "Apptium-Organization-CloudTrail-to-Cloudwatch-logs"
+		NOW you can use the cloud watch log filter querys to filter data and can set metrics alert. this has been explained in Cloudwatch segments
+		
+
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AWSCloudTrailCreateLogStream2014110",
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogStream"
+            ],
+            "Resource": [
+                "arn:aws:logs:us-east-1:120763833592:log-group:Apptium-Organization-CloudTrail-to-Cloudwatch-logs:log-stream:120763833592_CloudTrail_us-east-1*",
+                "arn:aws:logs:us-east-1:120763833592:log-group:Apptium-Organization-CloudTrail-to-Cloudwatch-logs:log-stream:o-pv1dbrdj2z_*"
+                
+            ]
+        },
+        {
+            "Sid": "AWSCloudTrailPutLogEvents20141101",
+            "Effect": "Allow",
+            "Action": [
+                "logs:PutLogEvents"
+            ],
+            "Resource": [
+                "arn:aws:logs:us-east-1:120763833592:log-group:Apptium-Organization-CloudTrail-to-Cloudwatch-logs:log-stream:120763833592_CloudTrail_us-east-1*",
+                "arn:aws:logs:us-east-1:120763833592:log-group:Apptium-Organization-CloudTrail-to-Cloudwatch-logs:log-stream:o-pv1dbrdj2z_*"
+            ]
+        }
+    ]
+}

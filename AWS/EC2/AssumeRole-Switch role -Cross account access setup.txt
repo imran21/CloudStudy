@@ -1,0 +1,30 @@
+
+
+AWS Assume Role -it is for cross account access
+That is: 
+Step 1: Login to surce account
+Step 2: Select on switch role and select the destination account
+Step 3: Login to the destination account
+		
+Steps for creating the Assume role switch account
+Step 1: Login to AWS destination Account
+Step 2: Go to IAM console
+Step 3: Now select "Role" -> "Create Role" -> select "Another AWS Account" Tab
+Step 4: Enter the 12 digit Account Id of the Source account and click create permissions.
+Step 5: On Permission page just add the policy that the user from soucrce account should have access
+Step 6: now Create the Role. Keep the role name safe(DevEC2Role)
+
+Now login to the Sourec account and do the following steps
+Step 1: Login to AWS Source account and navigate to IAM console.
+Step 2: Select "Policy" -> Create Policy
+Step 3: Select Service>STS, AccessLevel under 'Write' and select the Assume Role Checkbox
+Step 4: Underr resources -> Add ARN -> Enter the Destination Account number/ID and 
+        Role name with path ->Role created in the above destination account steps(Step 6-DevEC2Role )
+Step 5: Now Give name to the policy(sample name:AWS_assumeRolePolicy) and click create policy.
+Step 6: Now attach the policy to the user/group.
+
+To Test this
+Step 1: Login to surce account
+Step 2: Select on switch role and select the destination account
+Step 3: Login to the destination account
+

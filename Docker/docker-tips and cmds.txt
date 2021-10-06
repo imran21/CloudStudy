@@ -1,0 +1,103 @@
+#! /bin/bash 
+ yum install docker -y
+ systemctl enable docker
+ systemctl start docker
+ systemctl status docker
+
+docker version
+docker info
+
+docker pull httpd
+
+/usr/local/apache2/bin/httpd -k start
+
+curl -v telnet://34.202.164.10:80
+---------------------------------------
+Docker monitoring
+To find RAM and CPU usage of all containers
+>docker container stats
+To find RAM and CPU usage of specific container
+>docker container stats <container-id/name>
+
+To view logs of docker
+>docker container logs <container-id/name>
+
+------------------------------------------
+
+docker Network
+>docker network create --driver=bridge --subnet 10.0.8.0/22 --gateway 10.0.8.1 --ip-range 10.0.8.96/27 NW1
+
+>docker network inspect NW1
+
+Docker run with new network and assigning IP
+>docker run -ti -d --name=vm1 --network NW1 --ip 10.0.8.96 centos:latest /bin/bash
+
+Connect a network driver to an existing running container
+> docker network connect <Network-id> <container-id-or-name>
+
+disconnect a network driver from an existing running container
+> docker network disconnect <Network-id> <container-id-or-name>
+
+To get container IP address 
+>docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' container_name_or_id
+>docker inspect --format '{{ .NetworkSettings.IPAddress }}' container_name_or_id
+
+
+-----------------------------
+Docker COPY and ADD on docker file
+COPY just copy files and folders from local to container
+COPY doc_1 /data/doc_1 => This command copy the entier directory to container
+
+COPY doc_2 /data/ => This command copy only the content inside the doc_2 directory to the container
+
+ADD command 
+The ADD comman also does the same thing but it has some other added features
+
+>ADD http://example.com/file.gz /data
+This will download the file and move it to container
+>ADD file.gz /data/files
+This will extract the file and move to the container
+
+
+
+
+
+
+
+
+
+-------------------------------
+
+>docker login 
+this docker login will store the security tocken in .docker/config.json on root 
+
+Docker tag
+>docker tag --help
+>docker tag old-image:tag new-image:tag
+
+If you need to push a docker image to your account it has to be suffixed with your username
+>docker tag old-image:tag dockerdam/<new-imagg>:tag
+
+Then to push the docker image to the repository
+>docker push dockerdam/new-image:tag
+
+
+
+==================================================
+FROM centos:latest
+RUN yum install httpd -y
+#    && systemctl start httpd \
+#    && systemctl enable httpd
+COPY start_httpd.sh /
+RUN mkdir -p /data/doc_1
+RUN mkdir -p /data/doc_2
+
+COPY doc_1 /data/doc_1
+
+COPY doc_2 /data/
+WORKDIR /
+EXPOSE 3000:80
+ENTRYPOINT "/start_httpd.sh" && /bin/bash
+
+#! /bin/bash
+/usr/sbin/httpd

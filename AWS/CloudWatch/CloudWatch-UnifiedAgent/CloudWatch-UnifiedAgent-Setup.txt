@@ -1,0 +1,27 @@
+To install unified log agent EC2 machie
+
+Step 1: Create role which has this two policy 
+		CloudWatchAgentAdminPolicy
+		CloudWatchAgentServerPolicy
+		
+Step 2: Attach this Role to the EC2 Machine
+
+Step 3: Install the amazon-cloudwatch-agent
+		sudo yum install amazon-cloudwatch-agent
+Step 4: After installation please proceed the following steps
+
+		
+		cd /opt/aws/amazon-cloudwatch-agent/bin
+		ls
+		./amazon-clodwatch-agent-config-wizard
+		
+		Enter all the necessary details. Once Done the Config file is stored in the below path
+		/opt/aws/amazon-clodwatch-agent/bin/config.json
+		
+		To run the unified Agent after config file has been created.
+		./amazon-cloudwatch-agent-ctl -a start -m ec2 -c file://<filepath> -s
+		./amazon-cloudwatch-agent-ctl --help
+		
+
+To know the status of aws cloudwatch agent
+>systemctl statu amazon-cloudwatch-agent.service

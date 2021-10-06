@@ -1,0 +1,52 @@
+#The below policy deny the access to the IP it has specified.
+#This is not good approach as it allows all except the specified IP address
+#So use NotIPAddress condition which explaind one after below.
+
+{
+    "Version": "2012-10-17",
+    "Id": "S3PolicyIPRestrict",
+    "Statement": [
+        {
+            "Sid": "IPAllow",
+            "Effect": "Deny",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": "s3:*",
+            "Resource": "arn:aws:s3:::apptium-demo/*",
+            "Condition": {
+                "IpAddress": {
+                    "aws:SourceIp": "117.221.130.14/32"
+                }
+            }
+        }
+    ]
+}
+
+## Use Not IP address condition
+## This condition allow only the specified IP is provided.
+{
+    "Version": "2012-10-17",
+    "Id": "S3PolicyIPRestrict",
+    "Statement": [
+        {
+            "Sid": "IPAllow",
+            "Effect": "Deny",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": "s3:*",
+            "Resource": "arn:aws:s3:::apptium-demo/*",
+            "Condition": {
+                "NotIpAddress": {
+                    "aws:SourceIp": "117.221.130.14/32"
+                }
+            }
+        }
+    ]
+}
+
+
+IpAddress - The specified IP address or range
+
+NotIpAddress - All IP addresses except the specified IP address or range
