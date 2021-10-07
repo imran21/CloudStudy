@@ -1,7 +1,3 @@
-SCIM Endpoint
- https://scim.us-east-1.amazonaws.com/f3v7c01f9ab-cc83-433e-a7ff-9ac0d362e2b6/scim/v2/
- Access token:
- 5c539839-e4b9-4ad1-b88d-793809d59bcd:f3733c14-0a16-4613-95f9-cadd1bc289a0:1uml3BeV/P7+M2n1YzGJ0YKrRZePwUqrI4OZP3i1kqFBDQ2uol6urw+Pwd4Xdf4mRwYaFyChJqk9UFCRGKdpiWXVclKGL+yGsMRHwpEE7hbk1MfY8yLoWbX6vHutLc9c/bMNdGSIKU1EYNDuxRrk1T7/8IdHTRVYUyI=:ba1gfG98q9oH7fi2CoJz4rZ/BWzfjiiyGW9XO46F8o3zSZYcAUSXNGzeJ5G4mAvjxOqd1m0X3o7XWBqbheMruwaFeREhsY2jJLbABso7qh/dyvzSamawDrZ+peOywwiA0zL/cAMekMQqyo9Y5cWeWj0akviXGVMGYdtgCE5/ybL2hFWQvBT6CL3uouIMxjUW/foJLsLjxHGO+9nVZnXNrUXGTVilLzG9ZyS7Vkjj5y+fe1vhgnPAh2z2rsAjXVBGbSeJoVkVo9ID4Xb7oxT90UdZ3hf/v2rcvMiwmkSQPj2+yy5xIQ1NdC4n29Q7gNOJgukOAuHgb+ZtI2i5/izeng==
 
 
 --------------------------------------------------------
