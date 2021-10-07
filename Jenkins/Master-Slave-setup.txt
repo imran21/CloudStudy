@@ -1,22 +1,5 @@
+To setup  Jenkins master slave Setup
 
-
-
-To install java first on amazon linux machine
-
------------------------
-
-yum install java-1.8.0-openjdk-devel.x86_64
-
-curl --silent --location http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo | sudo tee /etc/yum.repos.d/jenkins.repo
-sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
-yum install epel-release -y
-amazon-linux-extras install epel -y
-yum update -y
-yum install jenkins-y
-systemctl start jenkins
------------------------------------------
-
-To setup master slave Setup
 on Slave node
 Step 1: Install java 8 as root user
 		yum install java-1.8.0-openjdk-devel.x86_64
@@ -30,7 +13,7 @@ Step 5: create an dir in slave -> /var/lib/jenkins/.ssh/known_hosts
 Step 6: chmod 700 var/lib/jenkins/.ssh/known_hosts
 Step 7: Now Copy the id_rsa_jenkins.pub content to /var/lib/jenkins/.ssh/known_hosts
 
-
+-----------------------------------------------
 
 On master node
 step 1: mkdir -p /var/lib/jenkins/.ssh/known_hosts
@@ -46,14 +29,3 @@ ___
 Now Jenkins update the SSH credentials with username ec2-user
 Create a node with the pvt or pub ip that you used above in master node on step 2
 This will create an jenkins slave node
-
-
-
-
-
-
-
-
-
-
-
