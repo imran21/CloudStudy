@@ -1,0 +1,46 @@
+Endpoint
+Interface Endpoint 
+	-> Will have an seprate ENI(IP , Security group)
+	-> heavy management 
+	-> use by lot of AWS resources.
+	
+Gateway Endpoint  ==> Mostly  used
+	-> Less management 
+	->used by only s3 and dynamoDB
+	->No secgroup and IP address
+
+Gateway Endpoint
+	The setup is straing forward
+	Create end point,attach to vpc and specific routet table.
+	
+Interface Endpoint
+	It support wide varity of resources in AWS
+	Create an Interface End point(in this example we have selected EC2)
+	Attach to the subnet where the Ec2 machine needs to connect to another EC2 resources.
+	Attach the secuity group to the endpoint and allow AllTraffic from the respective SecuityGroup(on source column attach the SecurityGroup whcih is attached to the pvt EC2 machine)
+    
+	Validation
+	To check the connectivity of the endpoint try the followings
+	Login to the private machine and execute the command
+	>aws ec2 describe-instances
+			OR
+	>aws ec2 describe-instances --endpoint-url vpce-0feb69cbb5fc686d9-vshfprb5.ec2.us-east-1.vpce.amazonaws.com
+	
+	This above command will provide you the output
+	If it is not providing the output then there is a problem with the security group.
+	
+	If you wan to connect the private instance to the RDS the attach the RDS endpoint and follow the same steps above
+	And to validate the rds enpoint connectivity try the below command once connecting to the RDS
+	>aws rds describe-db-instances
+	
+
+Once Interface endpoint is created you will be getting the following DNS name. I have exaplined that one on eachthing below after //
+vpce-0feb69cbb5fc686d9-vshfprb5.ec2.us-east-1.vpce.amazonaws.com (Z7HUB22UULQXV) // Regional VPC Endpoint DNS hostname // This endpoint is used along with CLI --endpoint-url
+vpce-0feb69cbb5fc686d9-vshfprb5-us-east-1b.ec2.us-east-1.vpce.amazonaws.com (Z7HUB22UULQXV) //ZONAL DNS hostname for VPC endpoint
+ec2.us-east-1.amazonaws.com (Z004810515X9PC5THQ0LB)  // Default DNS hostname of the EC2 service in us-east-1 region
+	
+	
+	
+	
+	
+	
