@@ -40,6 +40,10 @@ Storagegatway endpoint should be in public subnet
 IMPORTANT -> Same securtity group should be used both by Storagegatway-Endpoint and NFS-GatewayServer
 NFS-GatewayServer should be in Public subnet accessable to internet
 
+https://docs.aws.amazon.com/storagegateway/latest/userguide/gateway-private-link.html
+This Document clearly explains the onpermise gateway setups and settingup HTTP proxy for storage gateway
+And the PORT 
+
 
 
 		

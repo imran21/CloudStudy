@@ -40,7 +40,7 @@ vpce-0feb69cbb5fc686d9-vshfprb5.ec2.us-east-1.vpce.amazonaws.com (Z7HUB22UULQXV)
 vpce-0feb69cbb5fc686d9-vshfprb5-us-east-1b.ec2.us-east-1.vpce.amazonaws.com (Z7HUB22UULQXV) //ZONAL DNS hostname for VPC endpoint
 ec2.us-east-1.amazonaws.com (Z004810515X9PC5THQ0LB)  // Default DNS hostname of the EC2 service in us-east-1 region
 	
-	
+REFERENCE -> https://www.youtube.com/watch?v=mO5vm1veXbY	
 	
 	
 	

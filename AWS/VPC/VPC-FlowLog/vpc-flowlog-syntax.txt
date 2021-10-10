@@ -1,0 +1,4 @@
+VPC FlowLog
+
+VPC flowlog syntax
+<Version><Account_id><interface_id><source_addr><Destination_addr><source_port><Destination_port><Protocol><no_of_packets><Start_timestamp></End_TimeStamp><Action><Log Status>
