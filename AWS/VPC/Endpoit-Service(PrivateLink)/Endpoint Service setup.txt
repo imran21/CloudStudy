@@ -1,0 +1,56 @@
+VPC PRIVATE LINK
+
+It is used to make 2 private machine on different VPC to communicate without Pearing or NAT
+VPC-1
+Step 1: create a VPC 1, Create pub subnet, pvt subnet.
+Step 2: Install httpd on pvrivate subnet machine.
+Step 3: on private seg group allow 0.0.0.0 to all port (The endpoint consumer is working only when pvt seggroup is set to 0.0.0.0 on all port)
+Step 4: Create Target group and attach the private VM
+Step 5: Create a Network Load balancer and attach that target group to the load balancer
+
+
+VPC-2
+Step 1: create a VPC 1, Create pub subnet, pvt subnet.
+Step 2: on private seg group allow 0.0.0.0 to all port
+
+
+Creating the Endpoint-Service
+Step 1: Navigate to VPC console
+Step 2: Click on Endpoint service -> Create Endpoint service -> Enter the following details
+		Name -> Endpoint-service name
+		Load balancer type -> Network Load balancer
+		Available Load balancer -> Attach the available  NW load balancer 
+		Click on Create
+	Now the Endpoint service will be created with the endpoint service name
+
+Creating the Endpoint
+Step 1: Navigate to VPC console -> Click on Endpoints
+Step 2: Click on Create Endpoint and select the followings
+		Service Category  -> Find Service by name
+		Enter private service name and verify -> Enter the service name obtained in Step 2 of Endpoint-Service creation steps
+		Click on Verify -> you should get success message (Then only you will get all the VPC related stuffs)
+		
+Step 3: In VPC selection select the 'VPC 2' id
+Step 4: Now Select the subnet once the vpc is selected and the security group as well (pvt sec-grp)
+Step 5: and the security group as well (pvt sec-grp with ALL TCP to every one)
+Step 6: Click on Create Endpoint.
+Step 7: Navigate to VPC console
+Step 8: Click on Endpoint service -> Select the endpoint service you created
+Step 9: Go to Endpoint Connections tab ->select the endpoint ID
+Step 10: Select the Action Dropdown and select "Accept endpoint connection request"
+		After 5-to-10 min the Endpoint will be in available state.
+
+To validate that endpoint service is working fine or not
+Take the endpoint IP address by selecting Endpoint -> select the endpoint->under subnet tab take IPv4 Address
+Login to PVT Vm on VPC-2 and exeute the following command 
+curl -X GET http://<IP-Obtained-above-point>
+
+
+
+
+
+		 
+
+
+
+

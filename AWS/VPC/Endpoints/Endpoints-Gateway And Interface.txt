@@ -16,7 +16,7 @@ Gateway Endpoint
 Interface Endpoint
 	It support wide varity of resources in AWS
 	Create an Interface End point(in this example we have selected EC2)
-	Attach to the subnet where the Ec2 machine needs to connect to another EC2 resources.
+	Attach to the subnet where the Ec2 machine needs to execute  "aws ec2 describe-instances".
 	Attach the secuity group to the endpoint and allow AllTraffic from the respective SecuityGroup(on source column attach the SecurityGroup whcih is attached to the pvt EC2 machine)
     
 	Validation
