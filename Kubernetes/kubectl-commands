@@ -1,0 +1,107 @@
+https://stackoverflow.com/questions/55020845/kubelet-service-main-process-exited-code-exited-status-255-n-a
+https://www.devopszones.com/2019/03/kubelet-failed-to-run-kubelet-failed-to.html 
+https://kubernetes.io/docs/reference/kubectl/overview/
+
+kubectl get pods
+kubectl delete pod myapp-pod
+kubectl describe pods
+kubectl describe pod myapp-pod
+kubectl get all
+
+FORECFULL Delete of pods
+kubectl delete pod <PODNAME> --grace-period=0 --force --namespace <NAMESPACE>
+
+kubectl get pods -o wide | grep <nodename>
+
+# once Replica value is increased or decreased we can update the pods based on the following commands
+kubectl replace -f <file_name>.yml
+
+kubectl scale --replicas=6 -f <file_name>.yml
+kubectl get replicaset
+kubectl get replicationcontroller // if replication is set using replicationcontroller(older version)
+kubectl delete replicaset replicaset-name //Delete all the underlying pods
+
+kubectl scale -replicas=6 -f <fle_name>.yml
+kubectl scale deployment web --replicas=9
+--------------------------------------------
+
+DEPLOYMENTS
+kubectl get deployments
+kubectl delete deployment <deployment_name>
+------------------------
+
+NAMESPACE
+To list pods under specific namespace use.
+kubectl get pods --namespace=kube-system
+
+To list namespace
+>kubectl get namespace
+>kubectl get ns
+
+
+To create a pod under specific namespace
+kubectl create -f pod_file.yml --namespace=dev
+
+If you want to create the pod on the same namespace repeatedly, This can be hardcoded in the yaml file
+it can be moved to metadata section on the POD definition section
+Example: 
+=============================
+apiVersion: v1
+kind: Deployment  // this can be deployment,pod, ReplicaSet,namespace
+metadata:
+  name: myapp-pod-rc
+  namespace: dev
+  labels:
+    app: myapp-RC
+    dep: prod-RC
+	
+===========================
+
+To create a new namespace using yaml file see the complete yaml below.
+
+=========================
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dev
+===================
+Create namespace using command.
+>kubectl create namespace dev
+
+To move the dev name space as default namespace follow the below command
+>kubectl config set-context $(kubectl config current-context) --namespace=dev
+
+To list all the pods in all namespaces
+>kubectl get pods --all-namespaces
+
+--------------------------
+Resource Quota
+This resource quota can be used specify how many resource a single namespace can have.
+Resource means, CPU limit, memory limit, requested cpu, requested memory
+
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: myapp-pod-rc
+  namespace: dev
+  
+spec:
+  hard:
+    pods: "10"
+	requests.cpu: "4"
+	requests.memory: 5Gi
+	limits.cpu: "10"
+	limits.memory: 10Gi
+---------------------------
+  
+TO list containers inside the pods on all namespaces (fourlines of single command)
+kubectl get pods --all-namespaces -o jsonpath="{.items[*].spec.containers[*].image}" |\
+tr -s '[[:space:]]' '\n' |\
+sort |\
+uniq -c
+
+------------------------
+To remove the node from the Cluster or Master use the following code
+>kubectl drain <node name>
+Then
+>kubectl uncordon <node name>

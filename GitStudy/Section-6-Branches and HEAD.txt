@@ -1,0 +1,37 @@
+Section 6: Git Branches and HEAD
+
+Branches: Just Text reference to specific commit
+
+HEAD is a pointer to specific branch of latest commit
+pointers of all branches is located in  .git/refs/HEAD
+
+cd .git/refs/HEAD
+ls
+cat master // This file will store the commit id reference to the HEAD pointer
+
+------------
+To Move to the specific commit 
+
+git checkout <Previous-commit>
+#During this you could able to see the changes that you made in the particular commit
+#Even if any one deleted the file and commited, by moving to the previous commit we can able to restore.
+
+To again goback to the latest commit you can do either of this
+git checkout <latest-commit-id>
+-OR-
+git checkout <branch-name> // what ever branch you are in, it will move to the  latest commit.
+
+
+Comming back to previous commit and making the changes and commiting is also possible
+----------------------
+
+GIT BRANCH
+git branch //list branch
+git branch <branch-name>//create new branch
+git checkout <branch name> //checkout specific branch
+git checkout -b <branch name> // create branch and move to that branch
+git branch -d <branch-name> // delete specific branch // will delete only merged branch
+git branch -D <branch-name> // Delete non-merged branch
+git branch -m <old-branch-name> <New-Branch-Name> //rename the branch
+
+

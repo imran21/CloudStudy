@@ -1,0 +1,16 @@
+kubectl get nodes
+kubectl get nodes --show-labels
+kubectl label nodes <node-name> <new_label>
+Example
+
+kubectl label nodes kubernetes-foo-node-1.c.a-robinson.internal disktype=ssd
+
+
+kubectl get nodes --selector node=dev
+kubectl get pods -l app=myapp
+kubectl get pods -l app=myapp --no-headers
+kubectl get pods -l app=myapp --no-headers |wc -l
+
+Find pods with AND operation
+kubectl get pods -l app=myapp,dept=Finance
+

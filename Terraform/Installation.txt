@@ -1,0 +1,17 @@
+
+Terraform Installation from https://www.terraform.io/downloads.html
+
+latest version is 1.0.10
+
+wget  https://releases.hashicorp.com/terraform/1.0.9/terraform_1.0.9_linux_amd64.zip
+unzip terraform_1.0.9_linux_amd64.zip
+cp terraform /usr/local/bin
+cp terraform /usr/local/sbin
+
+terraform version
+
+-----------
+Enable tab completion:
+
+$ terraform -install-autocomplete
+$ source ~/.bashrc

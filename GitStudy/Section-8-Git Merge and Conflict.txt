@@ -1,0 +1,41 @@
+Section-8 Merging Branch
+
+Two types of merge
+	- Fast-forward Merge
+	-3 Way Merge
+	
+To main Commands
+git merge <target_branch> // to merge  another branch
+git merge --abort // to abort branch operations
+	
+Fast -forward merge:
+on the main(master) branch if there is no commit afte the branch 
+ie: if branch commit is greater the Master branch commit then fast-forwad is used
+
+->a1-->a2-->a3-->a4
+				 |
+				 |
+				 |
+				  ->b1-->b2-->b3
+				  
+		Then this can be done as
+		Checkout to master branch(it is called as receiving branch)
+		git merge b-branch
+		
+->a1-->a2-->a3-->a4-->->b1-->b2-->b3
+
+-------------------------------------------
+Three way merge
+
+->a1-->a2-->a3-->a4-->a5-->a6-->a7
+				 |
+				 |
+				 |
+				  ->b1-->b2-->b3
+				  
+Now we need to merge like this as below 
+->a1-->a2-->a3-->a4-->a5-->a6-->a7-->b3
+				 |
+				 |
+				 |
+				  ->b1-->b2-->b3

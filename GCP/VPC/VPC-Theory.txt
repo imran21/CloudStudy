@@ -1,0 +1,22 @@
+GCP VPC
+In GCP the VPC is global
+ie, VM in one region on VPC can able to talk to VM which is in another region VPC without any VPC pearing
+Two Types:
+	Auto mode
+		By default subnet is created in all region
+		ie; One subnet in each region
+	Custom mode.
+		Can creat a subnet in each environment as per your requirement.
+
+
+VPC Routes
+Routes tell how traffice is made from resource(instance) to outside world and visevers
+
+Firewall Rule
+	Every VPC has two firewall rule that block all incoming connections and allow all outgoing connection.
+	
+	
+	
+sudo mount -t nfs 192.168.55.158:/home/apptium/efs_share /home/apptium/efs
+sudo mount -t nfs 192.168.55.158:/home/apptium/efs_share /home/apptium/efs
+sudo mount -t nfs 192.168.55.158:/home/apptium/efs_share /home/apptium/efs

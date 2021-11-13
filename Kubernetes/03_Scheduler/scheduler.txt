@@ -1,0 +1,32 @@
+The scheduler is to schedule the pods to the specific nodes.
+
+Plain EC2 machine
+If we are using plain ec2 machine as kuberentes cluster we can nodeName
+This is done by giving the "nodeName" key in the yaml file definition
+
+If you are using Google cluster then
+use 'nodeSelector'
+First lable the node then use the nodeSelector key map the values 
+Assigning the labes to the node is explained in different file "kubectl-node-cmd.txt"
+Reference: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/
+For detailed and additional keywords refer this link https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/
+
+Example yml file
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    env: test
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    imagePullPolicy: IfNotPresent
+  nodeSelector:
+    disktype: ssd
+
+
+
+

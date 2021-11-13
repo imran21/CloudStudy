@@ -1,0 +1,29 @@
+
+
+To install AWS log pachage
+yum install awslogs
+
+To Edit which file has to sent to log streams. Edit the following file
+/etc/awslogs/awslogs.conf
+
+To set which Region the log has to be sent
+/etc/awslogs/awscli.conf
+
+---------------
+
+To make external systems (on-permisis) to send logs to cloud watch use cloud watch log agent
+Cloudwatch  log agent are of two types
+	1. Cloud watch log agent -> older version, Collect only log streams
+	2. Cloud watch log unified agent -> Newer version and has many features.
+	Collect Directly on Linux servers(on-permises) and EC2 Instances at high-level
+		*CPU
+		*Disk Metrics (I/O per second, Read, Write)
+		*RAM
+		*Netstat(number of TCP and UDP Connections, NetPackets bytes)
+		*Process
+		*Swap Spaces
+		
+		
+		
+
+

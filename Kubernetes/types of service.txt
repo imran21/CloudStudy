@@ -1,0 +1,4 @@
+Type of Service
+-NodePort
+-LoadBalancerIP
+-ClusterIP

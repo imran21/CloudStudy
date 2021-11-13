@@ -1,0 +1,2 @@
+Terraform Map variable
+https://www.devopsschool.com/blog/terraform-variable-map-type-explained/

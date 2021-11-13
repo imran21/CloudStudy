@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: myapp-pod-rc
+  labels:
+    app: myapp-RC
+    dep: prod-RC
+spec:
+  template:
+    metadata:
+      name: myapp-rc-template
+      labels:
+        app: RC-template
+        dep: Finance-Dep
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx:latest
+  replicas: 1
+  selector:
+    matchLabels:
+      dep: Finance-Dep

@@ -1,0 +1,10 @@
+Section:5 - BASIC GIT OPERATIONS
+git config --global user.name "Imran"
+git config --global user.email "mimubarakali@apptium.com"
+
+git config --list
+
+
+To ustage a file from staging area
+git rm --cached <file name>
+git rm --cached * //remove all the files from staging.

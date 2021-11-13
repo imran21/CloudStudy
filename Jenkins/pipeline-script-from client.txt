@@ -1,0 +1,33 @@
+pipeline {
+    agent {label 'worker2'}
+   environment {
+        token = credentials('vault-token')
+    }
+   
+    stages {
+        stage("Print the API Name") {
+            steps {
+				echo "API selected is $api_name"
+            }
+        }
+        stage("GenerateToken") {
+            steps {
+				script {
+					vaulttoken=sh(script: 'docker run --rm -e VAULT_SKIP_VERIFY=1 -e VAULT_TOKEN="${token}" -e VAULT_ADDR=https://10.16.22.85:8200 vault:1.6.1 sh -c "vault token create -ttl=4320h -explicit-max-ttl=4320h -policy=default -policy=group-$api_name-dev00-write -policy=group-$api_name-tst00-write -display-name=$api_name-dev00-tst00-write"', , returnStdout: true).trim()
+					}
+			}
+			
+			post {
+				failure {
+					echo "Stage FAILED"
+				}
+				success {
+					echo "Stage was Successful"
+					mail to: 'xyz@michaels.com , abc@michaels.com' ,
+					subject: "Status of pipeline: ${currentBuild.fullDisplayName}",
+					body: "$api_name has result $vaulttoken"
+				}
+			}
+		}	   
+	}
+}

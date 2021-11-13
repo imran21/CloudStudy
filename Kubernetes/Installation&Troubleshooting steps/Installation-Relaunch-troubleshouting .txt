@@ -1,0 +1,68 @@
+Installation Reference: https://www.tecmint.com/install-kubernetes-cluster-on-centos-7/
+re-launch cluster Refrence: - https://juniarto-samsudin.medium.com/ip-address-changes-in-kubernetes-master-node-11527b867e88
+
+When kubectl not starting, follow some steps from this blog
+https://computingforgeeks.com/install-kubernetes-cluster-on-centos-with-kubeadm/
+
+
+If you are creatting the kubernetes master AMI and re-launcing please do the follwoing steps
+
+Step 1: kubeadm reset
+Step 2: systemctl stop kubelet
+		systemctl stop docker 
+
+Step 3:	systemctl start docker 
+		systemctl start kubelet
+
+
+Step 4: kubeadm init --ignore-preflight-errors=DirAvailable--var-lib-etcd
+Step 5: export kubever=$(kubectl version | base64 | tr -d '\n')
+		kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$kubever"
+		## The above command in step 5 is used to setup WEAVE network then only the pods can able to communicate.
+
+
+Else please do the following as taken from the above refrence link
+======================================
+systemctl stop kubelet docker
+
+cd /etc/
+
+# backup old kubernetes data
+mv kubernetes kubernetes-backup
+mv /var/lib/kubelet /var/lib/kubelet-backup
+
+# restore certificates
+mkdir -p kubernetes
+cp -r kubernetes-backup/pki kubernetes
+rm kubernetes/pki/{apiserver.*,etcd/peer.*}
+
+systemctl start docker
+
+# reinit master with data in etcd
+# add --kubernetes-version, --pod-network-cidr and --token options if needed
+kubeadm init --ignore-preflight-errors=DirAvailable--var-lib-etcd
+
+# update kubectl config
+cp kubernetes/admin.conf ~/.kube/config
+
+# wait for some time and delete old node
+sleep 120
+kubectl get nodes --sort-by=.metadata.creationTimestamp
+kubectl delete node $(kubectl get nodes -o jsonpath='{.items[?(@.status.conditions[0].status=="Unknown")].metadata.name}')
+
+# check running pods
+kubectl get pods --all-namespaces
+==================================
+-------------------
+
+Now do the same thing in node VM as well and attach the master to node as the output you got in step 4
+
+-------------------------------------------
+
+When kubelet is failed to start, please do the following
+cat << EOF > /etc/docker/daemon.json
+{
+  "exec-opts": ["native.cgroupdriver=systemd"]
+}
+EOF
+

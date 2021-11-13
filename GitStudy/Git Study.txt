@@ -1,0 +1,64 @@
+Git LifeCycle
+Untracked -> Modified -> staged -> unmodified
+
+To list the files in git
+git ls-files
+git ls-files -s
+
+Git cat-file , 
+-t, type// commit, tree, file
+-p, Content //content inside file or sub tree or file hash id
+-s, object size in bytes
+git cat-file -p <comit-id>  // will give tree hash id
+git cat-file -p <tree-id>   // will give file hash id -list of all files
+git cat-file -p <file-hash-id> // will give content of all file
+
+git cat-file -t <Commit-id> //give the type 
+
+TO List files in the Staging Area after adding git add .
+git ls-files -s
+
+To ustage a file from staging area
+git rm --cached <file name>
+git rm --cached * //remove all the files from staging.
+
+Checkout to specific commit.
+
+>git checkout <comit-hash>
+now previous comit will not be visible, only head is moved, and master is still present
+To move the head to master itself use the following
+>git checkout master 
+
+GIT BRANCH
+git branch //list branch
+git branch <branch-name>//create new branch
+git checkout <branch name> //checkout specific branch
+git checkout -b <branch name> // create branch and move to that branch
+git branch -d <branch-name> // delete specific branch // will delete only merged branch
+git branch -D <branch-name> // Delete non-merged branch
+git branch -m <old-branch-name> <New-Branch-Name> //rename the branch
+
+GIT CONFIG
+git config --get remote.origin.url // to list the remote origin URL
+
+GIT CLONE a specific branch
+git clone --single-branch --branch <branchname> <remote-repo>
+
+GIT PUSH Specific Branc
+git push <remote_URL> <branch_name>
+
+GIT CLONE along with username and password
+git clone https://username:password@github.com/username/repository.git
+
+
+if the file have the same content but the file name is different then the SHA1 hash will be the same.
+The git will use the same SHA1 hash for same content file
+-------------------------------------------------------------------------------
+GIT Clone vs Download
+GIT Download -> will download the content of the directory but not the .git folder
+GIT Clone ->  will download the content of the directory along with the .git folder
+
+
+
+
+

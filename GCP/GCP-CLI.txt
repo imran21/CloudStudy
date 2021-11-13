@@ -9,7 +9,7 @@ gcloud config set account 'mimubarakali@apptium.com'
 gcloud auth login --no-launch-browser
 gcloud projects list
 gcloud config get-value project
-gcloud config set project 'project-id'
+gcloud config set project project-id
 
 gcloud iam service-accounts list 
 gcloud projects get-iam-policy <Project-Name> //list all service acounts and policy 
