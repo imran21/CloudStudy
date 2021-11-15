@@ -1,0 +1,120 @@
+
+App Engine
+Two types 
+	Standard
+	Flexiable
+-Standard
+	Run on the specic sandbox based on the language choosen
+	Support two versions v1 and v2
+	v1- old version of java python etc 
+	v2- new version of java python,nodejs and many more language.
+	Note: It support only manual, basic and Automatic scaling
+-Flexiable (It is a advanced feature to run aplication on Container)
+	Makes use of Virtual machine
+	It runs application on the Container
+	Support any language
+	Provide access to VM to check process and can attach disk volume also.
+	Note: It support only Manual and Automatic scaling
+
+App Engine has three type of scalings
+	Manual 
+	Basic
+	Automatic
+	
+
+-Automatic 
+	Autoscal beased on CPU utilization, Throughput, Concurent request
+	Should configure maximum and minimum instances
+-Basic
+	Instance are shutdown if zero request.
+	Cost is low
+	Experience low latency - So not feasible for high critical and fast rquest response applications
+	So, It is not supported by App Engine Flexibility
+	Configure Maximum instance and Idle Timeout
+-Manual
+	Adjust number of instan cemanual over time
+	
+---------------------------------------------
+Before deploying need to create te following files
+A Specific directory<nodejs-server> and under that
+		app.yaml
+        all your node packages and executables
+content of app.yaml
+
+	
+	
+---------------------------------------
+gcloud config set project <current project-id>
+
+Move to the specific directory which you want to deploy
+>gcloud app deploy
+
+To deploy to a specifie version
+>gcloud app deploy --version=v2
+
+To display URL of the deployed app
+>gcloud app browse
+
+To display the specific version of the deployed app
+>gcloud app browse --version=<Version_ID or Version_Name>
+
+To List the services
+>gcloud app services list
+
+To list the versions
+>gcloud app versions list
+
+To list the instnaces associated to this application
+>gcloud app instances list
+
+To deploy a new version(v3) but not send traffic to it.
+New version will be deployed but no traffic will be send to it.
+>gcloud app deploy --version=v3 --no-promote
+
+The Reverse of above is 
+>gcloud app deploy --version=v3 --promote
+or Deploy it again
+>gcloud app deploy --version=v3
+
+To split the Trffic
+>gcloud app services set-traffic --splits=v3=.5,v2=.5 
+
+The Above command by default split traffic based on IP
+To Split randomly on each versions
+>gcloud app services set-traffic --splits=v3=.5,v2=.5 --split-by=random
+
+To send all the trafic to v3 only
+>gcloud app services set-traffic --splits=v3=1
+
+https://cloud.google.com/sdk/gcloud/reference/app/versions/delete
+To delete a specific version of a specific service
+>gcloud app versions delete --service=myService v1
+
+To delete a named version across all services
+>gcloud app versions delete v1
+
+To delete multiple versions of a specific service
+>gcloud app versions delete --service=myService v1 v2
+
+To delete multiple named versions across all services
+>gcloud app versions delete v1 v2
+
+The versions to delete (optionally filtered by the --service flag).
+FLAGS
+--service=SERVICE, -s SERVICE
+If above flag specified, only delete versions from the given service.
+
+--------------------------------------------------------------
+
+To link Appengine to Load balancer
+NOTE: Only CLASSIC LOAD-BALANCER   will WORK
+https://medium.com/google-cloud/cloud-run-and-load-balancing-go-beyond-your-own-project-adfa1c8b001d
+
+
+
+
+
+
+
+	
+	
