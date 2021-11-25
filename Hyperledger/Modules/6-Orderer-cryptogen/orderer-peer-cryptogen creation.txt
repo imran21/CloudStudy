@@ -1,0 +1,64 @@
+cryptgen
+This is used to create certificate for orginazation and peers 
+This used only for the testing purpose
+
+
+orderer.yaml
+
+OrdererOrgs:
+	- Name: Orderer  // Name of the organization
+	  domain: xyz.com //domain name of the organization
+	  Specs:
+		- Hostname: orderer //hostname
+-------------------------------------------------------------
+
+File Name orderer-peer-config.yaml
+
+OrdererOrgs:
+  - Name: Apptium
+    Domain: apptium.com
+    #EnableNodeOUs: true
+    Specs:
+      - Hostname: orderer
+      
+#### Peers for acme
+PeerOrgs:
+  # Peer configuration for ACME
+  - Name: peer1
+    Domain: apptium.com
+    #EnableNodeOUs: true
+    Specs:
+      - Hostname: devpeer
+        CommonName: devpeer
+    Users:
+      Count: 2
+
+After that
+make a directory fabric-manual
+vi orderer-peer-config.yaml
+paste the above code.
+then execute the code with the following command
+/home/apptium/fabric/fabric-samples/bin/cryptogen generate --config=./orderer-peer-config.yaml
+
+The default output folder name for the cryptogen tool is "crypto-config"
+After executing this above command with the yaml file will create "crypto-config" dir and two sub directory are generated
+	ordererOrganizations 
+	peerOrganizations
+
+You can view the orderer certificate generated under the following MSP directory
+/home/apptium/fabric-manual/crypto-config/ordererOrganizations/acme.com/orderers/orderer.acme.com/msp/
+
+The Peers can be found in 
+/fabric-manual/crypto-config/peerOrganizations/apptium.com/peers
+
+
+When using with Docker containers like Orderer container and Peer Container the crypto-config file is shared between them.
+The Crypto-config directory is placed in host machine and shared to the container
+
+-----------------------------------------------------------------
+
+If you need to add additional peers or oganization to the same crypto-config folder we can use the extend command.
+To specify the output folder for generating crypto material you would use the flag --output
+cryptogen extend --config=./<New-FILE-to-add-peer>.yaml --input=./<Current-Dir> //by default it takes current directory
+
+

@@ -1,0 +1,69 @@
+Orderer
+Section-8 v-30,31,32
+References: https://github.com/hyperledger/fabric/blob/main/sampleconfig/orderer.yaml
+It is a single binary file
+Orderer requires the genesis block for initilization
+once it is initialized it will search for orderer.yaml file and should have access ordererMSP
+The orderer.yaml file is mentioned using env variable FABRIC_CFG_PATH
+
+Ordere writes log message to stderr
+Log specification is set through env variable FABRIC_LOGGING_SPEC
+FATAL|PANIC|ERROR|WARNING|INFO|DEBUG
+
+Format for Log message is configured in env variable
+FABRIC_LOGGING_FORMAT
+
+On successful orderer implementation it will write data to ledger which is in the FileSystem
+It uses GRPC service to communicat to client and peers
+
+
+Vid-33
+in orderer.yaml file the following parameters has to be considered.
+
+Point 1: Under FileLedger section,
+		 The location of the ledger sould be specified
+		 Location: ./ledger
+		 
+		 If the ledger location is specified by us then  Prefix: should be disabled by commenting.
+
+Point 2: 1. Under General section
+			Disable "LedgerType"
+		 
+		 2. change 
+			GenesisMethod: file
+			GenesisFile: ./acme-genesis.block
+		  
+			to 
+			BootstrapMethod: file
+			BootstrapFile: ./acme-genesis.block
+		  
+			If you want to start the orderer with the system channel then location of the Genesis-block should be provided.
+			As shown above.
+		  
+			If want to start orderer without system channel then set 
+			BootstrapMethod: none
+			and disable BootstrapFile
+---------------------------------------------------------------------
+Vid-34
+Orderer CSP configuration on orderer.yaml file
+CSP and MSP configuration
+BCCSP- Blockchain crypto service provider
+	   support HardwareCSP(PKCS11) and softwareCSP(SW)
+	   It is configured under BCCSP subsection.
+	   Note: BCCP setup must be consistent accross the network.
+	   
+MSP - Need to set LocalMSPID and LocalMSPDir
+     LocalMSPID - generated during configtxtgen 
+	 LocalMSPDir -./crypto-config/ordererOrganizations/acme.com/orderers/orderer.acme.com/msp
+-----------------------------------------------------------------------------
+Vid-35
+Orderer configuration for gRPC and TSL certificate configuration
+
+We will learn how to support Listerner interface parameter  and TSL transport
+
+The order need to be setup for accepting connections from peers
+	   
+
+
+		 
+		

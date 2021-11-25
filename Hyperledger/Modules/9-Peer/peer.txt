@@ -1,0 +1,72 @@
+Peer 
+It is launched as a peer processor and it becomes node in the Hyperledger network
+
+It is like utility used for two purposes.
+	The Peer configuration
+	The Network configuration
+
+Peer configuration is made in core.yaml
+It may be overriden by environment variable at run time, Like instead of core.yaml we can use another file.yaml (I guess)
+
+Path of config specified in FABRIC_CFG_PATH
+
+On launch peer will search for core.yaml by refering the env variable FABRIC_CFG_PATH and overrides any value in core.yaml and 
+reads the MSP and connects to orderer and writes data to ledger 
+
+FABRIC_LOGGING_SPEC -:env for logging 
+
+Like orderer the PEER also has GRPC server which connects to client,utility,sdk etc
+
+Peer has the following CLI command
+	help
+	version
+	node
+	channel
+	chaincode
+
+NOTE: 
+The Ledger location for peer is mentioned in core.yaml file under variable name "fileSystemPath"
+The ledger location has to be present where the peer is running.
+If we host the ledger file location outside of peer machine It will create not launch.
+
+------------------------------------------------------------------
+Peer node file structures and uses
+./clean.sh -> Delete the contents of the storage folder 
+./clean.sh all -> Deletes the storage folder
+				  Deletes the generated artificats
+				  Copies the core.yaml file to some location
+./env.sh -> for setting up env variable to the core.yaml during runtime
+./show-env.sh ->  Show list of env file
+./start-node.sh -> Start the peer node
+./stop-node.sh -> kills the peer node
+
+-----------------------------------------------
+PEER Commands
+Peer node command
+peer node start  start the peer
+peer node reset ->  Remove block from all the channels
+					Except the Genesis block
+					On restart, on start receives the block for all channel
+					NOTE: The reset commad should be executed only when peer is off
+
+peer node rollback ->
+					#flag -c -> remove the block from specific channel by using flag -c
+					#flag -b -> from latest block to specific block
+					           on Start the peer will receive the blocks again for the specific channel from the block specified by -b onwards
+							   NOTE: The rollback commad should be executed only when peer is off
+peer node pause -> makes the peer pause or put the peer in dormant without killing it.
+				   -c it can able to make the specific channel pause. No new block are received to this channel
+peer node resume -> #flag -c -> to resume the peer or resume specific channel with flag -c
+
+
+peer node rebuild-dbs -> reset the databases
+peer node upgrade-dbs -> update the db with new formats
+-----------------------------------------------------------------
+
+Steps for execution
+step 1: make changes  to env.sh file and start the script  -> . env.sh
+step 2: 
+
+
+
+ 

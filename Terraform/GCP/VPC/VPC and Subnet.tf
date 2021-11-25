@@ -26,3 +26,28 @@ resource "google_compute_subnetwork" "subnet" {
        depends_on = [google_compute_network.vpc]
        region = each.value["region"]
 }
+
+
+resource "google_compute_firewall" "allow-pub-ssh" {
+  name    = "allow-pub-ssh"
+  network = google_compute_network.vpc.name
+
+  allow {
+    protocol = "tcp"
+    ports    = ["22"]
+  }
+  source_ranges = ["0.0.0.0/0"]
+  target_tags = ["allow-pub-ssh"]
+}
+
+resource "google_compute_firewall" "allow-icmp" {
+   name    = "allow-pub-icmp"
+  network = google_compute_network.vpc.name
+
+  allow {
+    protocol = "icmp"
+  }
+
+  source_ranges = ["0.0.0.0/0"]
+  target_tags = ["allow-pub-icmp"]
+}
