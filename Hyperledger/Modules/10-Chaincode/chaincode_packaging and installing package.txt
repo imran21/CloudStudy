@@ -1,0 +1,24 @@
+Chaincode packaging and installation
+
+
+copy the IBM loyalty contract code to the local
+Make a directory name chaincode_repo and move the contract file to that location
+It sould be chaincode_repo/IBM_LoyaltyCode/<All JS file downloaded>
+The follow the below steps.
+To create an packages follow the step 5
+
+
+step 1 setup the environment for packaging
+
+step 1: Execute the script file ./env.sh that created for peer
+Step 2: mkdir -p $PWD/packages
+Step 3: CC_LABEL=nodejs.1.0-1.0
+Step 4: CC_PACKAGE_FILE=$PWD/$CC_LABEL.tar.gz
+step 5: Execute the below command for packaging
+>peer lifecycle chaincode package $CC_PACKAGE_FILE --label $CC_LABEL -l node  -p ../chaincode_repo/IBM_loyaltyCode/
+
+Step 6: To Install the chain code
+>peer lifecycle chaincode install tar-file-path
+
+Step 7: To verify the if the chain code has been installed with proper version
+>peer lifecycle chaincode queryinstalled 

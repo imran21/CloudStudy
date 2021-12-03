@@ -1,0 +1,35 @@
+
+
+Step 1: Edit Configtx.yaml, orderer-peer-crypto-config.yaml and order.yaml (These files are outside orderer dir)
+Step 2: Get into orderer dir 
+		Step 1: ./clean all -> clean all the existing directory
+		Step 2: ./init all -> Get the above file inside and create acme-channel.tx, acme-genesis.block
+		Step 3: ./launch  -> Launch the orderer
+
+Step 3: Now move to the peer directory
+		Step 1: for cleaning the ledgerdata and all file execute "./clean all" command
+		Step 2: execute .env.sh
+		Step 2:./peer_init.sh -> create all the peer supporting files and start the peer node.
+		 The Above 'pper_init.sh'  do the list of following. 
+		 Stpe 1: >peer channel create -o localhost:7050 -c acmechannel -f ../orderer/acme-channel.tx
+				  #-c -> any channel name eg;Apollo,Hundai
+				  #-f -> channel transcation file created during orderer init
+		 Step 2: > peer node start &
+		 step 3: > peer channel join -o localhost:7050 -b acmechannel.block
+					# -b <channelName.block> The .block file is created on above step 1(channel create)
+		 step4: > peer channel list
+				 To Check if the channel is created and listed
+		 
+		Step 3: ./peer
+		
+		To Fetch data from 
+		
+		step 1: peer channel fetch 0 -o localhost:7050  -c acmechannel  acmechannel.block
+		
+		NOTE: if you want to start the peer with the specific identity you use set.identity.user1.sh script
+			  Script available in Hyperledger\udemyDocuments\peer\simple-two-org
+			  Explained in Section:9 v:41
+			  
+Step 4
+		
+		

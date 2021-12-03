@@ -23,7 +23,7 @@ OrdererOrgs:
       
 #### Peers for acme
 PeerOrgs:
-  # Peer configuration for ACME
+  # Peer configuration for apptium
   - Name: peer1
     Domain: apptium.com
     #EnableNodeOUs: true

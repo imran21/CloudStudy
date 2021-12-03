@@ -1,0 +1,31 @@
+Section 10
+
+Caincode
+
+Chaincode lifecycle
+Chaincode Development -> Installation -> Approval -> Commiting
+
+Chaincode Development -> involves the business transcation specification
+						 Coding of chaincode
+						 Packaging ofchain code
+Instalation 		  -> Installation if cain code carried out by eac individual organization
+Approval			  -> Organization approves the chaincode
+						 The approcal process is mentioned in chaincode parameters
+						 
+Commiting			  -> One of the admin in organization commits the chain code
+						 based on policy the commit is done
+
+Command
+>peer lifecycle chaincode cmd --flag
+some commands (cmd) are 
+	package - package the chaincode
+	install - Install the chaincode to specific peer
+	queryinstalled - List the installed chaincode on peer
+
+>peer lifecycle chaincode package tar-file-path --flags
+	-p 		-> path to chaincode
+	--label -> Label assigned by administrator
+	-l 		-> Specify the language of chaincode, default is golang
+Label conventions -> Chaincode_name.Caincode_version - Org_specific_version
+
+	Org_specific_version -> version maintained(counter) internally in organization

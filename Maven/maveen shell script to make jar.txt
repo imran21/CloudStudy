@@ -1,0 +1,42 @@
+#!/bin/bash
+set -x # expands variables and prints a little + sign before the line
+
+export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+export AWS_DEFAULT_REGION=us-east-1
+
+ 
+exitstatus(){
+	build="$?"
+	if [ "$build" = 0 ];then
+		echo "************ Build Successful :) ************"
+  else
+  	echo "************ Build Failure :( ************"
+  	exit 1
+  fi
+}
+
+cloverrun(){
+	mvn clean clover:setup test clover:clover clover2:check -Dmaven.clover.targetPercentage=50% -Dmaven.clover.failOnViolation=false clover:log
+	exitstatus
+}
+
+mavenbuild(){
+	echo "************ starting to build maven project ************"
+	mvn dependency:tree
+	#mvn install:install-file -Dfile=/var/lib/jenkins/Oracle/ojdbc8.jar -DgroupId=com.oracle -DartifactId=ojdbc8 -Dversion=12.2.0 -Dpackaging=jar
+	#exitstatus
+    mvn clean install -DskipTests
+    exitstatus
+}
+
+ArtifactDeployment(){
+	echo "************ starting s3 Artifact Deployment ************" 
+	aws s3 cp **/EmailTracker-"$VERSION"-SNAPSHOT."$ZIPAS" s3://"$S3BUCKET"/"$PROJECTNAME"/"$REPONAME"/${GIT_BRANCH}/${BUILD_NUMBER}_${GIT_COMMIT}/	
+    exitstatus
+}
+
+
+
+mavenbuild
+ArtifactDeployment

@@ -1,0 +1,1 @@
+https://github.com/hyperledger/fabric/blob/main/sampleconfig/orderer.yaml

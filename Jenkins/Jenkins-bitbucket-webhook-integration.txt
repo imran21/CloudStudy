@@ -1,0 +1,35 @@
+Bitbucket jenkins webhooks
+
+Prerequsite on Jenkins
+1. Bitbucket plugin should be installed in jenkins
+
+
+
+
+On Bitbucket
+Step 1: navigate to repo
+Step 2: Click on repository settings
+Step 3: Click on webhooks
+Step 4: Provide the following details 
+		Title - select any name
+		URL - Jenkins URL Eg; https://cicd.apptium.com/bitbucket-hook/
+		Note: "bitbucket-hook" after URL is needed
+		Status -Enable Active
+		SSL/TSL - Disable skip certificate verification
+		Triggers - Select Push
+		SAVE
+
+On Jenkins
+Step 1: Navigate to the project
+Step 2: Navigat to configure page of the job
+Step 3: Under "Build Triggers"
+		Select - Build when a change is pushed to BitBucket
+
+
+Reference
+https://hevodata.com/learn/bitbucket-webhook-jenkins-integration/
+https://medium.com/ampersand-academy/integrate-bitbucket-jenkins-c6e51103d0fe		
+		
+		
+		
+		"widt12": "git+ssh://git@bitbucket.org/apptiumtechnologies/demo_prod-uat3.git#release/v2",

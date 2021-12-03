@@ -1,0 +1,92 @@
+Peer Channel
+
+Its used to set the channel for the peer 
+it has 7 commands the 
+	- Create	-> Create the Channel on the network
+	- Join		-> Peer join the specified channel
+	- List		-> List the channel that peer has joined
+	- fetch		-> This commad performs operation on orderer to fetch a block
+	- getinfo	-> Get information on the specified channel
+	- signconfigtx	-> For signing the config transcation file
+	- update	-> update the existing channel config
+	
+
+To Initiate the peer do the following
+File configurations are all already explained peer.txt
+
+For creating and starting up the peer channel please go through peer/init.sh
+
+The blockchain is composed of many peers
+To make the other peers join to the channel we need to use the fetch command and join command.
+The other option along with fetch command is 
+		newest
+		oldest
+		blocknumber
+		config
+
+> peer channel fetch <any above 4 options>  -c ChannelID -o <ordererVM-IP:7050>
+
+NOTE :: NOTE --> This fetch command is executed in orderer by specifing -o flag
+
+We can provide the outfile name which is optional. If not providing the output filename then we will get file names as
+channelID_newest.block, channelID_oldest.block, channelID_config.block, channelID_Blocknumber.block
+
+Try Command peer node
+> peer channel fetch config -c acmechannel -o <ordererVM-IP:7050> # to fect the config block in name channelID_config.block
+	The fetch config is used to get config and make changes to the blockchain network
+	The Admin will make changes to the config filesystem 
+	Based on Policies one or more user will sign the configuration
+	And admin submit the configuration to the blockchain network
+
+> peer channel fetch 0 -c acmechannel -o <ordererVM-IP:7050> # to fect the config block in name channelID_0.block (Genesis-block)
+
+----------------------------------------------------\
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\-
+peer channel getinfo --flag
+
+This getinfo commad is used to get the channel info from local blockchain
+It retrives channel info like current hight, block hashes
+peer channel getinfo -c <CannelID>
+
+Try Command peer node
+> peer channel getinfo -c acmechannel
+
+---------------------------------------------------------
+
+How to update the network configuration in peer. For that the below commands are used.
+	signconfigtx and  update.
+
+				Before that "fetch" command is used to fetch the config file
+											|
+											|
+											|
+Then the config file is modified and new transcation file is created. To do this "configxlator" is used
+The Updated configuration transcation file is then send to administrator of other organization
+This one or mode admin has to sign and approve the transcation file based on the policy
+											|
+											|
+											|
+This Admin uses the "peer channel signconfigtx" commad to sign the modified config transcation
+Then one of the admin will update the transcation to the network through the following command
+								peer channel update
+
+
+Signconfigtx command
+peer channel  signconfigtx -f transcationFile
+
+The peer update command enables the admin to submit the administraction transcation to the orderer
+peer channel update  -f <transcation-file> -c channelID -o ordererURL
+
+
+Step 1: on Orderer node use configtxgen to generate Anchor Peer update transcation channel
+		> configtxgen -outputAnchorPeersUpdate Org1Anchors.tx -profile AcmeChannel -channelID acmechannel -asOrg Org1Anchors
+		
+Step 2: Copy the above(step 1) generated file to peer subfolder(may be on subfolder present in peer VM)
+step 3: Use singconfigtx command to sign the transcation file
+step 4: To verifi that file has been modified, check the file size before and after signconfigtx command
+step 5: Now use the update command to submit the transcation to the network
+Step 6: To check if config is updated or not we can the height of the block using "peer channel getinfo" command
+
+
+
+                
