@@ -1,0 +1,18 @@
+AWS Elastic Container Registry(ECR)
+This is used to store the dokcer image in the AWS
+
+Step 1:Choose the public or private repository (select Private Repository)
+Step 2:Give the repository name, Please follow the below example for best devops pratice.
+		tweet/dev/stream ->  <Project-name>/<Env-dev,uat,prod>/<image-name>
+Step 3: Build the dockerfile with the above URL.com<Repo>/repo-name:<tag as 1.1, 1.2 or git build number> -> repo-name as mentioned in step 2
+		Else 
+		Tag the Already build job with the URL.com<Repo>/repo-name -> repo-name as mentioned in step 2
+Step 4: Docker push URL.com<Repo>/repo-name:<tag as 1.1, 1.2 or git build number>
+
+
+
+
+DevOpsBest pratice.
+For CI/CD activity kind of deployment, please have an separate VM machine installed as slave node.
+In that machine please pre configure Aws credentials and docker ECR credentials (docker credentials as mentioned in ECR and below)
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 120763833592.dkr.ecr.us-east-1.amazonaws.com
