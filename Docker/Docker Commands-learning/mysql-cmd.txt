@@ -1,0 +1,3 @@
+Docker Mysql
+docker pull mysql:5.7
+docker run -ti --name mysql-server -p 3306:3306 -e MYSQL_USER=admin -e MYSQL_PASSWORD=admin123 -e MYSQL_ROOT_PASSWORD=root@123  mysql:5.7

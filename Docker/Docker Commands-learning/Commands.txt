@@ -1,0 +1,11 @@
+To monitor the memory and cpu utilizations
+docker stats
+
+docker container top <cont-ID>
+docker container inspect <cont-ID>
+docker container stats <cont-ID>
+
+docker container start -ai <cont-ID>
+
+To getinto the running container use
+docker container exec <cont-ID> bash

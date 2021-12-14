@@ -1,0 +1,31 @@
+Docker ENV and ARG
+
+ARG - During the build time -Image creation
+ENV- During container creation
+
+To check what env variable has set in container, Get into container and execute 'env' command
+
+To pass env from CLI use -e flag
+
+Example
+>docker run -ti --name web1 -e HTTP_NAME="web1" -e HTTP_DEPT="Finance" centos:latest /bin/bash
+
+We can also use env file for it like demovars.env
+and use flag --env-file /path-to-env-file
+
+NOTE: The env varaible can not be  passed to dockerfile from outside as file.
+
+------------------------------
+ARG - Pass argument during build time of image
+To pass ARG on build time to docker file use the following inside docker file
+ARG Name="default-value"
+ENV Name=$ARG
+
+
+Then in build command CLI use the following
+>docker build -ti --name web1 --build-arg NAME=centos .
+
+
+
+Reference
+https://www.youtube.com/watch?v=t_cqy3JoMqI

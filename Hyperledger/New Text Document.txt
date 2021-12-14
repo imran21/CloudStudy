@@ -1,0 +1,38 @@
+
+FROM hyperledger/fabric-ca
+CMD /bin/bash -c 'fabric-ca-server start -d -b rca-org1-admin:rca-org1-adminpw'
+environment:
+      - FABRIC_CA_SERVER_HOME=/tmp/hyperledger/fabric-ca/crypto
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_CSR_CN=rca-org1
+      - FABRIC_CA_SERVER_CSR_HOSTS=0.0.0.0
+      - FABRIC_CA_SERVER_DEBUG=true
+	  
+	  ----------
+	  - FABRIC_CA_SERVER_CA_NAME=org1
+      - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.acme.com-cert.pem
+      - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/priv_sk
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.acme.com-cert.pem
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/priv_sk
+	  -------------
+volume ./hyperledger/org1/ca:/tmp/hyperledger/fabric-ca
+EXPOSE 7054:7054
+
+docker build -t ca-server:v1 .
+
+docker run -t --name CA-Server \
+-e FABRIC_CA_SERVER_HOME=/var/hyperledger/fabric-ca-server \
+-e FABRIC_CA_SERVER_TLS_ENABLED=true \
+-e FABRIC_CA_SERVER_CSR_CN=ca.acme.com \
+-e FABRIC_CA_SERVER_CSR_HOSTS=localhost \
+-e FABRIC_CA_SERVER_DEBUG=true \
+-e FABRIC_CA_SERVER_CA_NAME=org1 \
+-e FABRIC_CA_SERVER_CA_CERTFILE=/var/hyperledger/fabric-ca-server-config/ca.acme.com-cert.pem \
+-e FABRIC_CA_SERVER_CA_KEYFILE=/var/hyperledger/fabric-ca-server-config/priv_sk \
+-e FABRIC_CA_SERVER_TLS_CERTFILE=/var/hyperledger/fabric-ca-server-config/ca.acme.com-cert.pem \
+-e FABRIC_CA_SERVER_TLS_KEYFILE=/var/hyperledger/fabric-ca-server-config/priv_sk \
+-p 7054:7054 \
+ca-server:v1
+
+
+-v /fabric-manual/orderer/crypto-config/peerOrganizations/acme.com/ca:/var/hyperledger/fabric-ca-server \

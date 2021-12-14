@@ -1,0 +1,24 @@
+RUN vs CMD
+
+CMD - 
+	Execute any command on start of the container.
+	NOTE: Can override the values by passing the values on start of the container
+	if we have two CMD in the dockerfile it will take only the latest CMD in the last line on starting the container.
+	The above CMD will be executed inside the container then ignored.
+	
+	Example
+	CMD echo "Welcome to India" -> This is executed on intermediate container.
+	CMD echo "Welcome to china" -> This is executed on start of the container.
+
+	
+ENTRYPOINT
+	Work same as CMD but It cannot be override
+	NOTE: It cannot be override by pasing new value on start of container
+	It will get appended afert the entrypoint command
+	
+	We can use ENTRYPOINT and CMD in combination as sown below
+	ENTRYPOINT ["echo"]
+	CMD ["Hi Docker"]
+	
+	Now we can override the value on start of continaer just by pasing the value
+	

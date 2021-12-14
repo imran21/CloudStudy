@@ -1,0 +1,30 @@
+Lecture 3- Documents
+http://www.bcmentors.com/download-portal-hlfv2/
+
+Hyperledger Nodes
+
+	Nodes are three types
+		- Orderer
+		- peers ---> The peer is taged of two types, Leader peer or Anchor Peer
+					|_ If bot are not tagged then it is Regular Peer
+		- Client
+		
+		
+The Orderer nodes provides the communication channel for the fabric
+Resoponsible for Consistent ledger state accross network
+	- have consuence mecanism
+	-have message oriented middleware like Kafka,Raft
+	 RAFT is mostlyused
+
+
+Orderer used for
+	- Creation of blocks
+	- order for transcation
+
+Peer used for
+	- Maintain a own copy of ledger
+	- Ledger has two parts
+		- Transcation Log - log is immutable
+		- State database - peer uses couchDB for state DB
+	- Both of the above two logs are implemented by levelDB
+	

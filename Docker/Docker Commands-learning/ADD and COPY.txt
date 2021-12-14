@@ -1,0 +1,16 @@
+Docker COPY and ADD
+
+To copy the entier directory to the container use same dir name on both place
+Example copy demo dir to container
+
+COPY demo /any-dir/demo
+
+ADD commad also do the same thning
+but if we specify te tar file it will extract the file and put in target folder of the container
+
+ADD xyz.tar /any-dir/extract-files
+
+And if we give only link of tar-file to the ADD command it will download and put the tar file to target
+This wont untar and put in target
+
+ADD http://xyx.com/abc.tar /any-dir/extract-files

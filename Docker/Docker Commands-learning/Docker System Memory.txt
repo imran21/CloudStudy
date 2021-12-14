@@ -1,0 +1,14 @@
+docker system memory
+
+if getting no disk space left
+
+Check the Memory status of each images
+
+>docker system df
+
+To remove all the dangling images
+>docker system prune
+
+To remove all the dangling images along with container which doesn't have any continer attached
+>docker system prune -a
+

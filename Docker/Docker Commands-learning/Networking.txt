@@ -1,0 +1,44 @@
+Docker networking
+
+Bridge creates a linux virtual bridge and attach to container to bridge port
+Host- Attach the container to the host network
+none -have only loopback address
+
+docker network create --driver=bridge  -o "com.docker.network.bridge.name=AppBridge" --subnet=10.0.1.0/26 TwitNet
+
+docker network create \
+  --opt com.docker.network.bridge.enable_ip_masquerade=true \
+  --opt com.docker.network.bridge.enable_icc=true \
+  --opt com.docker.network.bridge.host_binding_ipv4=0.0.0.0 \
+  --opt com.docker.network.bridge.name=dockerbridge123 \
+  --opt com.docker.network.driver.mtu=1500 \
+  -d bridge \
+  mydockerdockerbridge
+  
+To attach a container to the network
+> docker run -ti --name web1 --net TwitNet --ip 10.0.1.0 -p 80:80 centos:latest /bin/bash
+
+-----------------------------------
+Docker-Compose
+To create an networkusing the docker compose
+version: '2'
+services:
+  nginx:
+    image: nginx
+    container_name: nginx-container
+    networks:
+      static-network:
+        ipv4_address: 172.20.128.2
+networks:
+  static-network:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+          #docker-compose v3+ do not use ip_range
+          ip_range: 172.28.5.0/24
+
+
+
+To find Ip address of all the container in single line
+
+  for s in `docker-compose ps -q`; do echo ip of `docker inspect -f "{{.Name}}" $s` is `docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $s`; done

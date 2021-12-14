@@ -20,7 +20,12 @@ Step 3: Now move to the peer directory
 		 step4: > peer channel list
 				 To Check if the channel is created and listed
 		 
-		Step 3: ./peer
+Section 9 V 44
+If peer in another organization-Org2 is wish to join the network the we need to use the genesis block of Org1.
+For this we need to use fetch command and join command
+This section is clearly mentioned in document section 9
+
+
 		
 		To Fetch data from 
 		
