@@ -1,4 +1,6 @@
 
+
+NOTE PLEASE follow the memory issue steps before starting the docker service docker space issue.txt
 To install docker
 yum install docker
 

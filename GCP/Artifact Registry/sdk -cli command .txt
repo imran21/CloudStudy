@@ -1,0 +1,4 @@
+Artifactory Registory CLI
+https://cloud.google.com/sdk/gcloud/reference/artifacts/repositories/create
+
+Good explanation in video for CLI

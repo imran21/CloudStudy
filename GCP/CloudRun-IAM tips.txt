@@ -1,0 +1,33 @@
+gcloud run deploy service-registry --image=gcr.io/sharedinfra-274417/emailtracker:14 \
+		--allow-unauthenticated \
+		--platform=managed \
+		--port=8761 \
+		--cpu=2 \
+		--memory=4192Mi \
+		--region=us-east1 \
+		--project=sharedinfra-274417
+		
+		
+GC_PROJECT=sharedinfra-274417
+GC_PROJECT_NUMBER=231638212182
+
+# Grant the Cloud Run Admin role to the Cloud Build service account
+gcloud projects add-iam-policy-binding $GC_PROJECT \
+  --member "serviceAccount:$GC_PROJECT_NUMBER@cloudbuild.gserviceaccount.com" \
+  --role roles/run.admin \
+  --role roles/storage.admin
+
+# Grant the IAM Service Account User role to the Cloud Build service account on the Cloud Run runtime service account
+gcloud iam service-accounts add-iam-policy-binding \
+  $GC_PROJECT_NUMBER-compute@developer.gserviceaccount.com \
+  --member="serviceAccount:$GC_PROJECT_NUMBER@cloudbuild.gserviceaccount.com" \
+  --role="roles/iam.serviceAccountUser"
+  
+  
+  
+  api-exec-engine@orbitera-282006.iam.gserviceaccount.com
+  
+  
+  gcloud beta run services add-iam-policy-binding --region=us-east1 --member=allUsers --role=roles/run.invoker emailtracker
+  
+  gcloud run deploy emailtracker --image=gcr.io/sharedinfra-274417/emailtracker:14 --platform=managed --allow-unauthenticated --platform=managed --port=7070 --region=us-east1 --project=sharedinfra-274417

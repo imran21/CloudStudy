@@ -1,0 +1,11 @@
+If you are getting docker space issue please configure the default docker directory to the root directory
+Follow the following steps
+Step 1: sudo systemctl stop docker
+Step 2: sudo mv /var/lib/docker /docker-data
+Step 3: sudo ln -s /docker-data/docker /var/lib/docker
+Step 4: sudo systemctl start docker
+
+This would be better if it done at the time of docker installation itself
+Once docker has been installed before starting the docker the abovestepshas to be followed
+
+

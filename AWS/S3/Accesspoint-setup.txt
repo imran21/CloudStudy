@@ -1,0 +1,41 @@
+AWS S3 access point
+
+Reference: https://aws.amazon.com/blogs/storage/managing-amazon-s3-access-with-vpc-endpoints-and-s3-access-points/
+
+This is to provide different set of permissions to the S3 bucket.
+Like Dev-team to ave some set of permissions, App-team to have someset of permissions
+This Provide only the Object level permission and not the bucket level permissions.
+It is used along with the VPC endpoint.
+
+Creating an AccessPoint with VPC
+Step 1: select the bucket
+Step 2: Go to access point tab
+Step 3: Create AccessPoint
+Step 4: select VPC
+Step 5: Provide
+		Accesspoint name
+		VPC-ID
+		Select "block all public access"
+Step 6: Save
+
+Create an Endpoint
+Step 1: select VPC from AWS console
+Step 2: Select Endpoint->Create Endpoint
+Step 3: under catagory ,select
+		Service category -> AWS service,
+		Service Name -> s3-Gateway
+		Select VPC
+		Select RouteTable (pvt rtb)	
+		policy-> Full Access or custom 
+		(For custom policy for s3 access point please refer above document refrence-1)
+		(I added policy only on endpoints and not on s3 bucket policy and it worked good)
+Step 5: save
+
+To validate go to the respective routetable and see if there is an Endpoint entry in it.
+aws s3api get-object --key iplist --bucket arn:aws:s3:us-east-1:120763833592:accesspoint/apt90-cob-prod iplist
+use the below cli command to validate
+Command reference: https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-usage-examples.html
+
+		
+
+		

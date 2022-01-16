@@ -1,0 +1,7 @@
+GCP IAM Policy file creation and applying to the file has been explained in this video
+
+
+
+https://www.youtube.com/watch?v=712Y0KpeHok
+
+mentioned at 6:00 time on video

@@ -11,8 +11,8 @@ Gateway Endpoint  ==> Mostly  used
 
 Gateway Endpoint
 	The setup is straing forward
-	Create end point,attach to vpc and specific routet table.
-	
+	Create end point,attach to vpc and select specific routet table.
+	Now from the private VM if you hit the command  `AWS s3 ls`, you can able to get the result.
 Interface Endpoint
 	It support wide varity of resources in AWS
 	Create an Interface End point(in this example we have selected EC2)

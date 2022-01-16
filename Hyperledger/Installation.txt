@@ -1,7 +1,8 @@
 Reference: https://medium.com/hackernoon/hyperledger-fabric-installation-guide-74065855eca9
 
+sudo apt-get update
 sudo apt-get install docker.io
-systemctl start docker
+sudo systemctl start docker
 sudo apt-get -y install docker-compose
 <NEED to IMPLEMENT>
 sudo groupadd docker

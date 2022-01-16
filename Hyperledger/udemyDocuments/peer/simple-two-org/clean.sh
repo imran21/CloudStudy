@@ -1,5 +1,5 @@
 # clean.sh                   Cleans up the storage folder only
-# clean.sh  all              Cleans up storage, generated files + copies over default YAML
+	# clean.sh  all              Cleans up storage, generated files + copies over default YAML
 
 source ./env.sh
 

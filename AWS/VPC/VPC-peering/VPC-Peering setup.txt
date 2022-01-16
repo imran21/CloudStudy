@@ -1,0 +1,27 @@
+VPC Pearing-Making Communication between two VPC
+
+Let say we have two VPC VPC-1 VPC-2
+We need to connect from VPC-1 pub vm  to VPC2-2 pvt vm
+Step 1: click on VPC peering
+Step 2: Select the source VPC and Destination VPC
+Stpe 3: save
+Step 4:select the sourceVPC -> Action ->Accept connections
+
+Now we need to edit the Route table of both VPC
+ON VPC-1
+Step 1:Got to the VPC-1 pub-vm route table.
+Step 2: in route table enter the followings
+       Destination=> VPC-2 -Sunet CIDR
+	   Target=> PeeringID
+	  Save
+	  
+ON VPC-2
+Step 1:Got to the VPC-2 pvt-vm route table.
+Step 2: in route table enter the followings
+       Destination=> VPC-1 -Sunet CIDR
+	   Target=> PeeringID
+	  Save
+	 
+Now Both the VPC are ready to communicate. Wecan test it by just hitting ping command of target VM IP
+NOTE: Both VPC should notbe having same CIDR 
+

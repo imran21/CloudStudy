@@ -35,4 +35,6 @@ Step 5: Once the image has been pushed to gcr then execute the below script to l
 		To allow any user to have access to the URL(any user to ping from browser) need to assign permission
 		Add "AllUsers" and assign "CloudRunInvoke" permission.
 		
+Note: Cloud run doesn't support volume mount but access to secret manager can be done
+https://medium.com/google-cloud/mount-a-file-as-a-volume-in-cloud-run-facc74c02cc6
 
