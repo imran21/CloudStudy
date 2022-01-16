@@ -1,0 +1,7 @@
+Access-point Multi region
+This Multi-region access point can hold multiple buckets
+NOTE 1: Each bucket should be connected in a way to have replication functionality. 
+		This can be done even after creating multiregion access point.
+NOTE 2: To enable replication functionality,versioning has to be enabled on the bucket.
+
+https://www.youtube.com/watch?v=JKwXyQI_FAY
