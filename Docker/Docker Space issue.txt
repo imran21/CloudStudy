@@ -9,3 +9,4 @@ This would be better if it done at the time of docker installation itself
 Once docker has been installed before starting the docker the abovestepshas to be followed
 
 
+IF Docker start not working the remove or backup /var/lib/docker
