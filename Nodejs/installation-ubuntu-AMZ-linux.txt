@@ -1,0 +1,32 @@
+Installing nodejs on ubuntu
+REFERENCE: https://tecadmin.net/install-angular-on-ubuntu/
+
+ curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+ sudo apt-get install nodejs
+ node -v
+
+ making nodejs library to be installed from downloading the JAR
+ sudo apt-get update
+ sudo apt-get install gcc
+ sudo apt-get install g++
+ sudo apt-get install make
+ make
+
+
+-------------------------
+ON AMZ Linux VM
+This Below step are followed on amazon linux machine to install Nodejs 14 and Angular
+The Reference link is given below
+
+sudo yum -y install curl
+curl -sL https://rpm.nodesource.com/setup_14.x | sudo bash -
+sudo yum install -y nodejs
+sudo yum -y install gcc-c++ make
+npm install -g @angular/cli@12  
+
+Installing Nodejs on amazon linux machine
+>	https://techviewleo.com/how-to-install-nodejs-on-amazon-linux/
+After this for installing Angula12 on amazon linux machine
+>	npm install -g @angular/cli@12 
+>	https://tecadmin.net/install-angular-on-ubuntu/
+------------------------------
