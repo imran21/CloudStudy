@@ -1,0 +1,16 @@
+Allowing specific port to get accessed wich is running on Windows EC2 VM
+Please follow the steps
+
+
+ Steps to open port in windows :-
+
+Step 1: On the Start menu, click Run, type WF.msc, and then click OK.
+Step 2: In the Windows Firewall with Advanced Security, in the left pane, right-click Inbound Rules, and then click New Rule in the action pane.
+Step 3: In the Rule Type dialog box, select Port, and then click Next.
+Step 4: In the Protocol and Ports dialog box, select TCP. Select Specific local ports, and then type the port number , such as 8787 for the default instance. Click Next.
+Step 5: In the Action dialog box, select Allow the connection, and then click Next.
+Step 6: In the Profile dialog box, select any profiles that describe the computer connection environment when you want to connect , and then click Next.
+Step 7: In the Name dialog box, type a name and description for this rule, and then click Finish.
+
+
+REFRENCE:https://stackoverflow.com/questions/17161345/how-to-open-a-web-server-port-on-ec2-instance

@@ -1,0 +1,4 @@
+Opening ICMP for windows
+https://stackoverflow.com/questions/21981796/cannot-ping-aws-ec2-instance
+
+Systems and security -> Advanced settings-> inboud rule ----Rightclick--> File and Printer Sharing (Echo Request -ICMP4) ->Enable rule
