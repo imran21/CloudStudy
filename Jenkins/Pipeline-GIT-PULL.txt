@@ -1,0 +1,22 @@
+Jenkins pipeline for git pull and having jenkins credentials
+prerequisite
+Git package sould be installed
+GIT or Bitbucket Credentials (username and password) should be stored in jenkins credentials.
+
+
+
+Syntax
+
+node {
+    stage "Create build output" 
+    
+    
+    // Make the output directory.
+    sh "mkdir -p output"
+    sh "mkdir -p $FileName"
+     withCredentials([usernamePassword(credentialsId: '825ff14d-c19b-48bf-b93f-78c3fb6a1892', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+        sh 'echo $USERNAME'
+    }
+    withCredentials([gitUsernamePassword(credentialsId: '825ff14d-c19b-48bf-b93f-78c3fb6a1892', gitToolName: 'git-tool')]) {
+  sh 'git pull https://bitbucket.org/xyzteches/clmn-demo-app.git'
+}

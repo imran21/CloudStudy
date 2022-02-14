@@ -1,0 +1,23 @@
+Jenkins Pipeline SSH-agent and file transfer to remote VM
+
+prerequisite.
+SSH-agent package should be installed in jenkins
+
+On The remote machine PART-A
+Step 1: Login to remote machine and execute the following command.
+Step 2: ssh-keygen -t rsa
+Step 3: Give any specific name if required
+Step 4: copy the content of rsa.pub content to .ssh/authorized_keys file
+step 5: copy the private key to the jenkins credentials. Will explain in following steps
+
+On the jenkins machine. PART-B
+Step 1: Login to jenkins
+Step 2: Manage Jenkins -> Manage Credentials -> Jenkins -> Global credentials (unrestricted) -> Add Credentials
+Step 3: Add the username and private key created in above PART-A 2 point. Note: Give some meaning name in ID field.
+Step 4: save.
+
+Syntax for Pipeline Jenkins SSH file transfer
+ stage ("copy a file to remote ubuntu server") {
+        sshagent(['oml-uat-ssh-pvt-key']) {
+    sh 'scp -v -o StrictHostKeyChecking=no -r $FileName ubuntu@3.84.121.200:/home/ubuntu/apps'
+}
