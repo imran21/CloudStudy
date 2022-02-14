@@ -1,0 +1,21 @@
+TO Access  Linux EC2 instance from Windows EC2 through powershell
+
+Prerequisite.
+1. Checkif ssh is installed in powershell else install it.
+2. Move the pem file from local to Windows EC2
+3. Modify the file permission of pem file through the following steps.
+
+Modify the file permission for the pem file through the following steps
+Step 1: Login to EC2 VM where we have pem file.
+Step 2: Right click on the pem file and select properties.
+Step 3: Select Security -> Advance
+Step 4: Select Disable Inheritance -> Remove All Inherited permissions from this object
+Step 5: Click on Add button and enter Administrator -> Check Names 
+Step 6: Select full Control check-box (This will select all the check box) -> click OK button
+Step 7: Now Select Apply and OK button
+NOW You are ready to connect the Linux EC2 VM from Windows EC2
+
+ssh -i keypair.pem centos@10.0.4.4
+
+Reference: https://www.youtube.com/watch?v=N9t2RzmHta8
+
