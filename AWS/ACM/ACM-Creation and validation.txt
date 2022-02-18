@@ -1,0 +1,42 @@
+ACM Certificate creation
+TO create an ACM certificate you should have a domain name
+Please Add the domain name with wild card EG: *.xo1.sg. Adding wild card url to DNS service provider will validate the domain so quickly
+Select the DNS validation
+
+Then click on request button.
+
+Once CNAME has been created by the ACM for the respective url, Add those CNAME in DNS provider(godady or googleDNS)
+
+Please refer the below URL for adding both CNAME and CNAME value in DNS provider(godady or googleDNS)
+-----------------------------------------------------------------------------
+ACM with Google Domain
+https://stackoverflow.com/questions/63553661/validating-aws-certificate-in-google-domains
+
+What domain is your cert registered for?
+
+It looks like you are saying AWS said the record should be _XXXXXc0c9db9a6c9300e65f9XXXXXXXX.www.mydomainame.com which means _XXXXXc0c9db9a6c9300e65f9XXXXXXXX needs to be added as a record under the subdomain of www.mydomainame.com
+
+You may be adding the record under mydomainname.com and not under the www subdomain which is may be why it's not working.
+
+I would suggest recreate the ACM create and creating a wildcard cert under the top level domain (e.g. *.mydomainame.com).
+
+-------------------------------------------------------------------------------------
+
+ACM with godady
+https://stackoverflow.com/questions/49488095/validating-domain-for-aws-acm-in-godaddy
+
+The Host will receive the AWS certificate manager's Name, BUT just the prefix, for example:
+
+AWS name:
+
+_904706782abb3d16301321f28db53e03.my-domain.com.
+You should grab just this _904706782abb3d16301321f28db53e03 for godaddy's Host name. For the "points to" (on your GoDaddy account) input, you should grab the value of the AWS certificate manager. For example:
+
+_0ba986089fff81c1b4f395a2ea75f42e.hkvuiqjoua.acm-validations.aws
+By the way, the value comes with a dot at the end, GoDaddy will remove the dot at the moment you click enter. for example:
+
+_0ba986089fff81c1b4f395a2ea75f42e.hkvuiqjoua.acm-validations.aws. will become to
+
+_0ba986089fff81c1b4f395a2ea75f42e.hkvuiqjoua.acm-validations.aws
+
+-------------------------------------------------------------------
