@@ -13,6 +13,7 @@ Step 5: create an dir in slave -> /var/lib/jenkins/.ssh/known_hosts
 Step 6: chmod 700 var/lib/jenkins/.ssh/known_hosts
 Step 7: Now Copy the id_rsa_jenkins.pub content to /var/lib/jenkins/.ssh/known_hosts
 
+
 -----------------------------------------------
 
 On master node
@@ -20,9 +21,17 @@ step 1: mkdir -p /var/lib/jenkins/.ssh/known_hosts
 step 2: Ececute the following query
 		ssh-keyscan -H <slave-machine-IP> >> /var/lib/jenkins/.ssh/known_hosts
 		Note: The same IP should be used while configuring the Agent in jenkins console
+ OR 
+	paste or update the public key in current directory of the user
+        /home/jenkins/.ssh/known_hosts
+
 step 3: chown jenkins:jenkins .ssh
 step 4: chown jenkins:jenkins known_hosts
 step 5: chmod 700 known_hosts
+
+On jenkins console-UI page
+While creating node please select Host Key Verification Strategy -> Non Verifying Verification Startegy
+Reference: https://stackoverflow.com/questions/62189167/jenkins-slave-configuration-issue-in-linux
 
 
 ___
