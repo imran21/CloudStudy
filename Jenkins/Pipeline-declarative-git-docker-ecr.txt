@@ -1,0 +1,113 @@
+Declarative pipeline for pulling two repo and building docker file and pushing back to ECR
+
+----------------------------------------------
+def COMMIT_ID
+//def JOB_BASE_NAME = ${env.JOB_BASE_NAME}
+pipeline {
+    agent {
+        label 'clmn-build-server'
+ }
+ 
+    stages {
+        
+        stage("clear workspace") {
+             steps {
+             cleanWs()
+             }
+        }
+        stage("parameter setup") {
+            steps {
+                script { 
+                    properties([
+                        parameters([
+                            string(
+                                name: 'AWS_ECR_Account', 
+                                defaultValue: '106712265456.dkr.ecr.us-east-1.amazonaws.com', 
+                                trim: true
+                            ),
+                            string(
+                                name: 'ENV', 
+                                defaultValue: 'DEV', 
+                                trim: true
+                            )
+                        ])
+                    ])
+                }            
+           }
+        }
+        
+        stage("pull source code - clmn-admin-app") { //Stage-1
+            
+             steps{
+                 dir("${env.JOB_BASE_NAME}") {
+                     checkout([
+                        $class: 'GitSCM', 
+                        branches: [[name: '*/master']], 
+                        doGenerateSubmoduleConfigurations: false, 
+                        extensions: [[$class: 'CleanCheckout']], 
+                        submoduleCfg: [], 
+                        userRemoteConfigs: [[credentialsId: '825ff14d-c19b-48bf-b93f-78c3fb6a1892', url: 'https://bitbucket.org/apptiumtechnologies/clmn-admin-app.git' ]]
+                        ])
+                sh 'git rev-parse HEAD > commit'
+                script {
+                     COMMIT_ID = sh ( 
+                                   script: "git rev-parse HEAD", returnStdout: true
+                                 ).trim()
+                    echo "COMIT_ID>>>: ${COMMIT_ID}"
+                   COMIT_ID =  "${COMMIT_ID}"
+                    }
+                 sh 'echo $COMMIT_ID'
+                 echo "$COMMIT_ID"
+                 }
+            }
+             
+         } //stage 1
+         stage ("pull dockerfile") {
+            steps {
+                dir("${env.JOB_BASE_NAME}-Dockerfile") {
+                    checkout([
+                        $class: 'GitSCM', 
+                        branches: [[name: '*/master']], 
+                        doGenerateSubmoduleConfigurations: false, 
+                        extensions: [[$class: 'CleanCheckout']], 
+                        submoduleCfg: [], 
+                        userRemoteConfigs: [[credentialsId: '825ff14d-c19b-48bf-b93f-78c3fb6a1892', url: 'https://bitbucket.org/apptiumtechnologies/clmn-build-container.git' ]]
+                        ])
+                }
+             }
+           }
+         stage("List dir") { //stage 2
+         
+             steps {
+                 echo "$COMMIT_ID"
+             sh 'ls -lart'
+             sh 'pwd'
+             sh "touch clmn-$COMMIT_ID"
+             sh 'ls -lart'
+             }
+         } // stage 2
+         
+         stage("Build and Tag image") {
+             steps {
+                 sh '''
+                    cp $JOB_BASE_NAME-Dockerfile/$ENV/$JOB_BASE_NAME/Dockerfile .
+                    aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin $AWS_ECR_Account
+                    sudo docker build -t $JOB_BASE_NAME .
+                    sudo docker tag $JOB_BASE_NAME:latest $AWS_ECR_Account/$JOB_BASE_NAME:${BUILD_NUMBER}
+                    sudo docker push $AWS_ECR_Account/$JOB_BASE_NAME:${BUILD_NUMBER}
+                  '''
+                 sh 'ls -lart'
+             }
+         }
+         stage("Clean docker workspace") {
+             steps {
+                 sh '''
+                 #sudo docker images
+                  sudo docker rmi $AWS_ECR_Account/$JOB_BASE_NAME:${BUILD_NUMBER}
+                  sudo docker rmi $JOB_BASE_NAME
+                   
+                 '''
+             }
+         }
+     }
+}
