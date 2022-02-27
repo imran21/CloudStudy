@@ -12,7 +12,7 @@ sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
 yum install epel-release -y
 amazon-linux-extras install epel -y
 yum update -y
-yum install jenkins-y
+yum install jenkins -y
 systemctl start jenkins
 -----------------------------------------
 
