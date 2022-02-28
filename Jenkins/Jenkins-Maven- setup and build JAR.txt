@@ -1,0 +1,25 @@
+Jenkins Maveen integration
+
+In jenkins to use maven you need to download "Maven integration" plugin first.
+Then we have to define the maven installation on jenkins - This is one time task
+	Step 1: Jenkins -> Manage Jenkins -> Global tool configuration
+	Step 2: Under Maveen installation click on Add Maveen button
+	Step 3: Give a name for Maveen and select the latest version
+	Step 4: Now Click on SAVE
+	
+On Job cofiguration page -
+ Step 1: under Build -> Add build step (dropdown)-> (select) Invoke Top level maven targets
+ Step 2: Under Maven version select the name that you created in above steps (Step 3)
+ Step 3: under Goals enter the following command to build a jar file
+			-B -DskipTests clean package
+
+ On running on this job will create an JAR file on same workspace under target directory
+ 
+ For sample java code please refer below link
+ https://github.com/jenkins-docs/simple-java-maven-app
+ 
+ For Maven command to build jar
+ https://github.com/jenkins-docs/simple-java-maven-app/blob/master/jenkins/Jenkinsfile
+ 
+ 
+ 
