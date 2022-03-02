@@ -1,0 +1,44 @@
+Integrating Jfrog with Jenkins
+
+Step 1: Install "Artifactory" plugin
+Step 2: Now go to manage jenkins -> configure systems -> search for "Artifactory" or Jfrog
+		In my case I am getting JFrog in my UI
+		
+Step 3: Proivde the following details
+		Instance ID = Any Identification to be identified while creating job
+		JFrog Platform URL = https://chennaicloud.jfrog.io
+		Username = <created user>
+		Username = <password>
+		
+		Now check for test connection it should reply "Found JFrog Artifactory 7.34.4 at https://chennaicloud.jfrog.io/artifactory"
+		JFrog Distribution not found at https://chennaicloud.jfrog.io/distribution --> Need to check this later.
+
+Step 4: Apply and Save.
+
+-----------------------------------------------------------
+To create a Maven Job in jenkins
+Reference: https://youtu.be/BVxhLIfunmI
+
+Step 1: login to jenkins Dashboard -> New Item
+Step 2: Provide job name and select "Maven project"
+Step 3: Under Git, select the git radio button and enter the sample URL https://github.com/jenkins-docs/simple-java-maven-app.git
+Step 4: Under Build provide the following details
+		Root POM = pom.xml
+		Goals and options = clean install //(or) -B -DskipTests clean package // to skip the test package to be compiled
+	As the artifactory has to be pused to jfrog please do the post build action as described below.
+
+Step 5: Post-build Actions dropdown -> select "Deploy artifacts to Artifactory"
+		once the artifactory server endpoint is selected click on "Refresh Repository" button
+		Once clicked,  the "Target snapshot repository" dropdown will list all repository in Jfrog.
+		
+Step 6: Apply and Save
+Now Build the JOB
+
+Once build is success you can navigate to Jfrog Artifactory-> Artifacts -> <reponame> -> you can find the JAR here.
+
+		
+
+ 
+
+		
+
