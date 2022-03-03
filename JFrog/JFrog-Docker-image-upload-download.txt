@@ -1,0 +1,9 @@
+Docker Artifact in Jfrog
+Uploading and Downloading Docker images to Jfrog Artifactory
+Before that we need to create a Docker repo in Jfrog then do the following steps explained in the below link
+
+
+https://www.jfrog.com/confluence/display/JFROG/Getting+Started+with+Artifactory+as+a+Docker+Registry
+
+
+
