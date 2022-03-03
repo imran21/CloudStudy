@@ -1,0 +1,7 @@
+Jenkins Declarative pipeline script for maveen integration
+https://youtu.be/kO7wrtY2b3E
+
+
+stage("build") {
+	sh "mvn clean install"
+}
