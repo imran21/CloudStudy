@@ -1,0 +1,28 @@
+Downloading the and Uploading  Artifactory (JAR,WAR, ZIP, Any file) from Jfrog using cURL
+Refrence: https://youtu.be/peSN5YroC8M
+-----------------------------
+Downloading
+curl  -u "<USERNAME>:<PASSWORD>" -XGET https://<ARTIFACTORY_URL>/<REPO>/<PATH>/file.zip --output <Any-Name>.jar/zip
+
+Example
+curl  -u "<USERNAME>:<PASSWORD>" -XGET https://chennaicloud.jfrog.io/artifactory/demo-maven/com/mycompany/app/my-app/1.0-SNAPSHOT/my-app-1.0-20220302.160050-1.jar --output <Any-Name>.jar
+
+---------------------
+
+Uploading
+curl  -u "<USERNAME>:<PASSWORD>" -XPUT https://<ARTIFACTORY_URL>/<REPO>/<PATH>/file.zip -T file.jar/zip
+NOTE: For Upload the target artifactory name should match the local file name
+Example
+curl  -u "<USERNAME>:<PASSWORD>" -XPUT https://chennaicloud.jfrog.io/artifactory/demo-maven/com/mycompany/app/my-app/1.0-SNAPSHOT/my-app-1.0-20220302.160050-1.jar -T my-app-1.0-20220302.160050-1.jar
+
+--------------------------------------------------------------
+
+Uploading Multiple Artifacts
+We can use for loop in bash to upload multiple artifactory at a same time
+for file in *;
+	do
+		if [ "$file" != *".sh" ]; then
+			curl  -u "<USERNAME>:<PASSWORD>" -XPUT https://<ARTIFACTORY_URL>/<REPO>/<PATH>/$file -T $file
+		fi
+	done
+NOTE:We can use the same script to download artifact as well 
