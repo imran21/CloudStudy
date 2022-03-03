@@ -1,0 +1,2 @@
+To update the JFROG repo with different versions of build and commit ID please use the following link
+https://jfrog.com/knowledge-base/configuring-build-artifacts-with-appropriate-build-numbers-for-jenkins-maven-project/
