@@ -1,0 +1,64 @@
+ElasticSearch v7 Installation centos Linux
+https://computingforgeeks.com/how-to-install-elasticsearch-on-centos/
+
+If elastic search has been installed with above steps in link and if we need to remove the elasticsearch, use the following command
+yum remove elasticsearch-oss
+
+----------------------------------------------------
+
+ElasticSearch v8 installation
+https://artifacts.elastic.co/downloads/kibana/kibana-8.1.1-linux-x86_64.tar.gz
+Donwloading elasticsearch latest tar file from elastic search website.
+
+wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.1.1-linux-x86_64.tar.gz
+tar -xzvf elasticsearch8.1.1.tar.gz 
+
+ElasticSearch to bind all IP address
+go to elasticsearch/config/elasticsearch.yaml and add the following
+ 
+ network:
+  host: _eth0_
+
+ 
+To run the elastic search 
+./bin/elasticsearch
+
+upon executing the above command you will get 
+	password for elastic search - OMTwIgLJMN0Jk8vWD2II
+	Token for kibana (valid only for 30 min - No worries, we can create a new token upon expire )
+	 eyJ2ZXIiOiI4LjEuMSIsImFkciI6WyIxNzIuMzEuMS4yMTo5MjAwIl0sImZnciI6IjE1ZGU1YTVjZjNiYjY1M2FmMDY2YTY0MmVlYzc1YmIwYTM2MmZiOWE2YTU3NWYyMjMxOGZkM2M3YTZjYjQ2YzIiLCJrZXkiOiJRMUtRdkg4Qk1ld2k0TmtoTWFncjphSWZmYmxzWFRJaWgwYmd4ZkNKaUlBIn0=
+
+
+To reset new elasticsearch password
+./bin/elasticsearch-reset-password -u elastic
+
+To create new kibana Token
+./bin/elasticsrearch-create-enrollment-token --scope kibana
+
+
+
+
+---------------------------------------------------------------
+kibana installation
+
+wget https://artifacts.elastic.co/downloads/kibana/kibana-8.1.1-linux-x86_64.tar.gz
+tar -xzvf kibana-8.1.1-linux-x86_64.tar.gz
+
+to make kibana accept connection from outside world add the following in 
+vi kinbana/congig/kibana.yml and add the following
+
+server.host: "0.0.0.0"
+
+if it want to accessed only from specific IP then add like below
+
+server.host: "13.xx.xx.xx"
+
+To Start Kibana
+./bin/kibana
+
+
+
+
+
+
+
