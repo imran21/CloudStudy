@@ -1,0 +1,57 @@
+
+
+Shards and Replication.
+Each index will have default one shards
+
+
+To Increase te shards use Split API
+To reduse the shards use Shrink API
+
+----------------------------------------
+Replication
+If any node fails we can use replication to make copy of your index on multiple nodes
+The shard that has been replicated is called "primary shard"
+The primary shards and its replica shards are refered to as replication group
+
+Each Shards will have an replication as explained in section-2 video-14 5:24 Time
+
+--------------
+Snapshots
+Elasticsearch support taking snapshorts
+Snapshots 
+
+----------------------
+Oncreating index, the status of index is yellow. 
+The reason for this is, the index is having replica shards and this shards is not allocated to any node.
+When we add new node then the replica will be placed in that node and it will be in green color.
+As of now, yellow indicates that the status of  node is in warning stage.
+
+-----------------------------------------
+Adding New node the cluster
+
+Step 1: Download elastic search on another dir if it is in same node(VM)
+Step 2: go to elasticsearch.yml file and change and uncomment  "node.name: node-2"
+
+-------------------------------------------
+Node Roles Section: 2 Chapter 17
+	1. Master-eligible
+		The node may be elected as cluster's master node
+		 node.master: true|false
+	2. Data
+		As name implies, Enables the node to store data
+		This involves storing data and performing search queries related to that data suc as search queries
+		A node will not store any shards if this is disabled.
+		This is best used when you have dedicated master node and data node
+		node.data: true|false
+	3. Ingest
+		This enable the node to run the ingest pipeline
+		The ingest pipeline are serious of steps(Process) that are performed when indexing documents
+			Ie; process means manipulating document, resolving IP to lat/lan
+		
+		
+		
+	
+	
+
+
+

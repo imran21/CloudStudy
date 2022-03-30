@@ -1,0 +1,94 @@
+
+
+Create and Delete index
+PUT /demo-index 
+DELETE /demo-index
+GET /_cat/indices?v
+
+To define number of shards and number of replica shards while creating index
+PUT /demo-index-p1
+{
+ 	"settings": {
+	"number_of_shards": 2,
+	"number_of_replicas": 2
+	}
+	
+}
+
+To list all index
+GET /_cat/indices  -> List all indices
+GET /_cat/indices?v  -> List all indices
+
+------------------------------
+Puting data to index or document
+POST /demo-index/_doc
+{
+  "name": "imran",
+  "city": "Chennai",
+  "job": "IT"
+  
+}
+
+And response is 
+	{
+  "_index" : "demo-index",
+  "_id" : "olPT2n8Bwd4dfqk6G9xy",
+  "_version" : 1,
+  "result" : "created",
+  "_shards" : {
+    "total" : 2,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "_seq_no" : 1,
+  "_primary_term" : 5
+	}
+
+To have a specific ID for that data we can do like this below
+
+POST /demo-index/_doc/1
+{
+  "name": "Tim",
+  "city": "Newyork",
+  "job": "IT"
+  
+}
+
+NOW we get the ID and data as shown below
+	{
+  "_index" : "demo-index",
+  "_id" : "1",
+  "_version" : 1,
+  "result" : "created",
+  "_shards" : {
+    "total" : 2,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "_seq_no" : 2,
+  "_primary_term" : 5
+}
+
+To reterive the data from index by using ID
+GET /demo-index/_doc/1
+
+To update the document by refering the index
+POST /demo-index/_update/1
+{
+	"doc": {
+	"city": "Toronto"
+	}
+}
+
+To update a new field ie; new key-value to the existing document
+
+POST /demo-index/_update/1
+{
+	"doc": {
+	"language": ["English", "French", "Tamil"]
+	}
+}
+
+To delete a document
+
+DELETE /demo-index/_update/1

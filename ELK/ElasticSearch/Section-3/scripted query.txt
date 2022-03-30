@@ -1,0 +1,11 @@
+Elastic search scripted update section 3: video23
+The scripted query  is to update the document with script like dynamic variables, if-loop, for-looplike that
+
+POST /demo-index/_update/1
+{
+	"script": {
+	"source": "ctx._source.age--"
+	}
+}
+
+This is not working. Need to check

@@ -1,0 +1,14 @@
+Elasticsearch upsert query
+
+Create document or update a document if the field is not exist
+
+POST /demo-index/_update/1
+{
+	"doc": {
+	"language": ["English", "French", "Tamil"]
+	},
+	
+	"upsert": {
+	"age": "23"
+	}
+}
