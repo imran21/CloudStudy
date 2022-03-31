@@ -33,8 +33,11 @@ Step 3: under catagory ,select
 Step 5: save
 
 To validate go to the respective routetable and see if there is an Endpoint entry in it.
-NOTE: --key -> it is for defining the filename inside the s3 bucket (Check the Reference-2)
+NOTE: --key -> it is for defining the identification name for the file inside the s3 bucket. It can also be the file name (Check the Reference-2)
 aws s3api get-object --key iplist --bucket arn:aws:s3:us-east-1:120763833592:accesspoint/apt90-cob-prod iplist
+
+For complete access of Access point over alias name  please refer the below document.
+Reference https://techdirectarchive.com/2021/12/24/how-to-manage-and-use-amazon-s3-access-points-using-the-aws-management-console/
 use the below cli command to validate
 Command reference: https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-usage-examples.html
 
