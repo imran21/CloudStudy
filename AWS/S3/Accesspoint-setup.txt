@@ -17,6 +17,7 @@ Step 5: Provide
 		Accesspoint name
 		VPC-ID
 		Select "block all public access"
+		NOTE: We cannot change the access point ACL once the access point has been created.
 Step 6: Save
 
 Create an Endpoint
