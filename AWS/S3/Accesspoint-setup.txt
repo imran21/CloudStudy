@@ -1,9 +1,10 @@
 AWS S3 access point
 
-Reference: https://aws.amazon.com/blogs/storage/managing-amazon-s3-access-with-vpc-endpoints-and-s3-access-points/
+Reference-1: https://aws.amazon.com/blogs/storage/managing-amazon-s3-access-with-vpc-endpoints-and-s3-access-points/
+Reference-2: https://docs.aws.amazon.com/cli/latest/reference/s3api/get-object.html
 
 This is to provide different set of permissions to the S3 bucket.
-Like Dev-team to ave some set of permissions, App-team to have someset of permissions
+Like Dev-team to have some set of permissions, App-team to have someset of permissions
 This Provide only the Object level permission and not the bucket level permissions.
 It is used along with the VPC endpoint.
 
@@ -32,6 +33,7 @@ Step 3: under catagory ,select
 Step 5: save
 
 To validate go to the respective routetable and see if there is an Endpoint entry in it.
+NOTE: --key -> it is for defining the filename inside the s3 bucket (Check the Reference-2)
 aws s3api get-object --key iplist --bucket arn:aws:s3:us-east-1:120763833592:accesspoint/apt90-cob-prod iplist
 use the below cli command to validate
 Command reference: https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-usage-examples.html
