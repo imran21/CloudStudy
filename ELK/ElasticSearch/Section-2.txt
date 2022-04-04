@@ -47,6 +47,36 @@ Node Roles Section: 2 Chapter 17
 		This enable the node to run the ingest pipeline
 		The ingest pipeline are serious of steps(Process) that are performed when indexing documents
 			Ie; process means manipulating document, resolving IP to lat/lan
+		node.ingest: true|false
+		
+	4. Machine Learning
+		If you wana to run a ML jobs on nodes you can set or tag the node as ML so that it will only run  ML jobs.
+		Because of this, it will not affect the oter node job.
+		
+		node.ml -> identifies node as a machine learning node
+			node.ml: true|false
+		xpack.ml.enabled -> enables or disables the machine learning APIfor the node
+			xpack.m1.enabled: true|false
+	
+	5. Cordination VTL-6:52
+		This cordination refers to the distrubution of queries and aggrigation of results
+		It used for large cluster
+		Configuring by disabling all the roles
+		
+	6. Voting-only (Rarely used and almost we won't use it either)
+		This role is used to select/elect the master
+		This is mostly used in large cluster
+		
+		
+To view Node roles
+GET /_cat/nodes?v
+And the _cat/nodes page 46 shows the codes.
+
+node.role, r, role, nodeRole
+(Default) Roles of the node -> cdfhilmrstw
+Returned values include c (cold node), d (data node), f (frozen node), h (hot node), 
+i (ingest node), l (machine learning node), m (master-eligible node), r (remote cluster client node), s (content node), t (transform node), v (voting-only node), w (warm node), and - (coordinating node only).
+		
 		
 		
 		
