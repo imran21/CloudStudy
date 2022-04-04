@@ -1,0 +1,50 @@
+Transitgateway setup Video 46 and 47
+IMPORTANT NOTE -> Transitgateway make communication only on the same AZ
+			      Example: if VPC-1-pvt-VM-1 is on us-east-2b then VPC-2-pvt-VM-1 should be also in the same AZ ie; us-east-2b (Video-48)
+				  
+				  
+
+If we need tomake communication among different VPC then we have to use the transitgateway.
+VPC pearing  works only beetween one VPC to anoter VPC, But Transitgateway works among n number of VPC
+
+Prerequisite: create 2 VPC  and 2 pvt subnet and 2 public subnet.
+Goal: Make two private VPC communicate eachother through Trnasit gateway
+
+Steps for implementing Transitgateway
+Step A1: Creating Transitgateway
+		Step 1: Create an  transit gateway
+				Name -> Transitgateway name
+				Enable 	DNS supportInfo
+				Enable		VPN ECMP supportInfo
+				Disable		Default route table associationInfo -> if automatically create route table association (Not Recomended, will create by own)
+				Disbale		Default route table propagation -> if automatically create propogation (Not Recomended, will create by own)
+		Step 2: Click Create Transitgateway
+
+Step B1: Create Transit gateway attachement -> This is to attach each VPC to transitgateway
+
+		Step 1: Create Transit gateway attachement  provide name 
+		Step 2: Select transitgateway ID created in step A1
+		Step 3: Select the respective VPC then create attachement
+	Please do step B1 for each VPC
+
+Step C1:  Create Transit gateway routetable -> This is same as VPC-subnet-routetable configuration but with additional configuration
+		Step 1: Click Create Transit gateway routetable and provide name
+		Step 2: select transitgatewayID as created in Step A1
+		Step 3: Then click-on create Transit gateway route table
+	    Step 4: Now go to the routetable and select association tab
+				Now select the attachement that need to be associated to this routetable
+				Best Practice - 1 attachement to 1 route table -> This is like how you associate subnet to route table in VPC
+		Step 5: Now go to propogations tab and add respective tgw-attachement to which the particular VPC want to make communication.
+				Example: If VPC-A want to communicate only to VPC-D and VPC-E and not to VPC-B and VPC-C then add VPC-D and VPC-E tgw-attachement to the propogation.
+			    Now The route entries will automatically updated in the route tab which has been taken from the VPC-CIDR.
+				This will make any subnet added to the VPC could able to communicate with other VPC as per propogation.
+				To avoid this, we can use the static route in the route table.
+				CIDR -> VPC1-CIDR
+				Choose Attachement -> VPC1-AttID
+				
+				
+Step D1: Modify the VPC-subnet-routetable to communicate to transitgateway Asusual we do in VPC
+
+
+			
+
