@@ -35,7 +35,8 @@ Step C1:  Create Transit gateway routetable -> This is same as VPC-subnet-routet
 				Now select the attachement that need to be associated to this routetable
 				Best Practice - 1 attachement to 1 route table -> This is like how you associate subnet to route table in VPC
 		Step 5: Now go to propogations tab and add respective tgw-attachement to which the particular VPC want to make communication.
-				Example: If VPC-A want to communicate only to VPC-D and VPC-E and not to VPC-B and VPC-C then add VPC-D and VPC-E tgw-attachement to the propogation.
+				Example: If VPC-A want to communicate only to VPC-D and VPC-E and not to VPC-B and VPC-C then 
+				 Select the VPC-A route table and add VPC-D and VPC-E tgw-attachement to the propogation.
 			    Now The route entries will automatically updated in the route tab which has been taken from the VPC-CIDR.
 				This will make any subnet added to the VPC could able to communicate with other VPC as per propogation.
 				To avoid this, we can use the static route in the route table.
