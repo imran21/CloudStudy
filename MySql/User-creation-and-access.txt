@@ -1,0 +1,14 @@
+create user in mysql DB
+> CREATE USER 'readonlyuser' IDENTIFIED BY 'rouApptium$1234';
+
+To grant only READONLY 
+>grant select on database_name.* to 'readonlyuser'@'%' identified by 'rouApptium$1234';
+Ref: https://phoenixnap.com/kb/how-to-create-new-mysql-user-account-grant-privileges
+Ref: https://knowledge.broadcom.com/external/article/179529/creating-a-readonly-database-user-accoun.html#:~:text=At%20the%20mysql%20prompt%2C%20do,%25'%20identified%20by%20'password'%3B
+
+To revove the permission
+>REVOKE permission ON database.table FROM 'user'@'localhost'; 
+Ref: https://www.liquidweb.com/kb/remove-permissions-for-a-mysql-user-on-linux-via-command-line/
+
+TO list what kind of access permission the user has
+>SHOW GRANTS FOR username;

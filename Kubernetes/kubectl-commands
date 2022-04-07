@@ -2,6 +2,8 @@ https://stackoverflow.com/questions/55020845/kubelet-service-main-process-exited
 https://www.devopszones.com/2019/03/kubelet-failed-to-run-kubelet-failed-to.html 
 https://kubernetes.io/docs/reference/kubectl/overview/
 
+kubectl create -f <pod-file.yml>
+kubectl apply -f <pod-file.yml>
 kubectl get pods
 kubectl delete pod myapp-pod
 kubectl describe pods
@@ -19,8 +21,11 @@ kubectl replace -f <file_name>.yml
 kubectl scale --replicas=6 -f <file_name>.yml
 kubectl get replicaset
 kubectl get replicationcontroller // if replication is set using replicationcontroller(older version)
+kubectl delete rc --all
+kubectl delete rc <pod-name>
 kubectl delete replicaset replicaset-name //Delete all the underlying pods
-
+kubectl delete rs --all
+kubectl delete rs <pod-name>
 kubectl scale -replicas=6 -f <fle_name>.yml
 kubectl scale deployment web --replicas=9
 --------------------------------------------
@@ -32,12 +37,40 @@ kubectl delete deployment <deployment_name>
 
 NAMESPACE
 To list pods under specific namespace use.
+
 kubectl get pods --namespace=kube-system
 
 To list namespace
+>kubcetl create namespace <my-namespace>
 >kubectl get namespace
 >kubectl get ns
+By default the kubectl will display the default namespace. To move to other namespace permenantely use the following command
+>kubectl config set-context $(kubectl config current-context) --namespace=dev
+After executing the above command and the then if we execute "kubcetl get pods" we will get only the pods which is present in that name space.
+Ref: https://kubernetes.io/docs/reference/kubectl/cheatsheet/ -> cheetsheet
 
+To view pods in  all namespaces use 
+kubectl get pods --all-namespaces
+
+
+We can even set how many pods memory and CPU can be used  by using the following resourcequota object
+-------------------------------------------
+apiVersion: v1
+kind: ResourceQuota
+metadata: 
+	name: compute-quota
+	namespace: dev
+	
+spec: 
+ hard: 
+   pods: "10"
+   requests.cpu: "4"
+   requests.memory: 5Gi
+   limits.cpu: "10"
+   limits.memory: 10Gi
+   
+
+----------------------------
 
 To create a pod under specific namespace
 kubectl create -f pod_file.yml --namespace=dev

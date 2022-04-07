@@ -1,0 +1,13 @@
+K8s Replication controller
+Replication controller- 
+if any single pod fails it will bring up the new pods
+It halp to deploy multiple pods on different nodes 
+Replication Set Vs Replication Controller
+Replication set is the new one
+
+selector is the major difference between replication controller and replica set
+selector is used in replica set
+
+
+selector involves matchLables to specify which pods has to be replicated
+
