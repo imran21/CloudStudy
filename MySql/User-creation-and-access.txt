@@ -1,8 +1,8 @@
 create user in mysql DB
-> CREATE USER 'readonlyuser' IDENTIFIED BY 'rouApptium$1234';
+> CREATE USER 'readonlyuser' IDENTIFIED BY 'roum$1234';
 
 To grant only READONLY 
->grant select on database_name.* to 'readonlyuser'@'%' identified by 'rouApptium$1234';
+>grant select on database_name.* to 'readonlyuser'@'%' identified by 'roum$1234';
 Ref: https://phoenixnap.com/kb/how-to-create-new-mysql-user-account-grant-privileges
 Ref: https://knowledge.broadcom.com/external/article/179529/creating-a-readonly-database-user-accoun.html#:~:text=At%20the%20mysql%20prompt%2C%20do,%25'%20identified%20by%20'password'%3B
 
