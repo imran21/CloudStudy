@@ -1,0 +1,12 @@
+
+AWS kubectl installation windows 
+Stpe 1: If you are using 1.21 cluster version please use 1.20 kubectl client version
+		Refer Below link for kubectl installation steps on windows power shell
+		https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
+		
+Step 2: Use the following command on powershell to download kubectl v1.20 as because we are using 1.21 EKS cluster
+	    curl -o kubectl.exe https://s3.us-west-2.amazonaws.com/amazon-eks/1.20.4/2021-04-12/bin/windows/amd64/kubectl.exe
+		once downloaded put the exe file in respective place like D:\k8s\
+Step 4: Now change the environment variable ThisPC->rightClicke->properties->Advance System settings->Environemnt variable->system variable->Enter Path=D:\k8s\
+
+Step 5: Now close the powershell and reopen a new powershell and enter "kubectl version --short --client" command to make sure the installation 

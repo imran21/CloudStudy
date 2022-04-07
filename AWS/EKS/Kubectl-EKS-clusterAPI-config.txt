@@ -1,0 +1,17 @@
+aws eks CLI commands
+
+To view clusters
+
+>aws eks list-clusters
+
+TO view the status of the clusters
+>aws eks --region us-east-1 describe-cluster --name <Cluster-name> --query cluster.status
+
+
+IMPORTANT
+To update the latest EKS cluster config inormation to the local kubectl (or) Regestring the EKS cluster API with local kubectl, please execute the below commands
+>aws eks --region us-east-1 update-kubeconfig  --name <cluster-name> 
+The above command will store the config file of current cluster and will respond output as below
+Added new context arn:aws:eks:us-east-1:120763833592:cluster/eportal-cobia-cluster-int to C:\Users\ADMIN\.kube\config
+
+Now if you try "kubectl get svc" this will display the list of EKS cluster.

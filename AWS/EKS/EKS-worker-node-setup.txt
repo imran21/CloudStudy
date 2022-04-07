@@ -1,0 +1,7 @@
+Creating Worker node
+
+We need role which should have the following policy
+
+AmazonEKS_CNI_Policy
+AmazonEKSWorkerNodePolicy
+AmazonEC2ContainerRegistryReadyOnly
