@@ -1,0 +1,75 @@
+Service Types
+	1. Node port -> communication to pod through the node IP
+	2. Cluster IP -> It will create a virtual IP in the cluster and enable communication to other pods
+	3. Load balancer -> supported by the cloud provider
+	
+	
+
+Node Port Spec details
+
+TargetPort -> port running on the POD/container
+port -> This refer to the port on the service itself
+NodePort->This is the outside port which the user will use it from outside world 
+			NOTE 1: Default node port range should be between 32000 to 32767
+			NOTE 2: We can have multiple port mapping in single spec service
+
+If we have multiple pod on same port on differnet Node, Then, we can use same service for multiple pod on different node.
+			
+			
+			
+			
+Creating the service
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-service
+spec:
+  type: NodePort
+  ports:
+   - targetPort: 80
+     port: 80
+	 nodePort: 30008
+  selector:
+     app: RC-template //this has too be labels from metadata of pod or replicaSet
+     dep: Finance-Dep //myapp-RC //this has too be labels from metadata of pod or replicaSet
+	 
+------------------------------------------------------------------------------
+
+Cluster IP
+If a group of frountend pod has to communicate to group of backend pod of same kind then we can use cluster IP
+yaml file for cluster IP below. NOTE: This does not involve node port as it is for making comuunication between frontend to backend (Internal Traffic)
+>kubectl get service -> This gives the Cluster IP through which we can communicate
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-service
+spec:
+  type: ClusterIP
+  ports:
+   - targetPort: 80
+     port: 80
+  selector:
+     app: RC-template //this has too be labels from metadata of pod or replicaSet
+     dep: Finance-Dep //myapp-RC //this has too be labels from metadata of pod or replicaSet
+	 
+--------------------------------------------------------------------------------------------------
+
+Loadbalancer IP
+
+
+Creating the service
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-service
+spec:
+  type: LoadBalancer
+  ports:
+   - targetPort: 80
+     port: 80
+	 nodePort: 30008
+  selector:
+     app: RC-template //this has too be labels from metadata of pod or replicaSet
+     dep: Finance-Dep //myapp-RC //this has too be labels from metadata of pod or replicaSet
+	 
