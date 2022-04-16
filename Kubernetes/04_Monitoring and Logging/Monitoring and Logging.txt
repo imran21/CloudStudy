@@ -24,4 +24,5 @@ To view the logs of the POD
 
 If there is more containers in PODS and to view the Logs of that container we should provide the container name 
 >kubectl logs -f <POD-NAME>  <Container-name>
+>kubectl logs --previous <pod-name> // Logs from previously crashed container.
 

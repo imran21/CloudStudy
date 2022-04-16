@@ -1,0 +1,21 @@
+05_Application Lifecycel management
+
+Rolling updates.
+
+The Rolling updates are done kind deployment.
+
+This is to maximize high availabaility of POD by killing one old POD and creating one new POD in replication set.
+This is like doing new release and rollback to old one if any issue in new release.
+
+To roll back
+>kubectl rollout undo deployment/myapp-deployment
+This can be validate by checking replicasets
+>kubectl get rs
+
+More command in k8s-kcloud github documentation
+--------------------------------------------
+
+Commands and Arguments
+More details and screenshot in word documentation "commands and Arguments"
+
+
