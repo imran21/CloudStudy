@@ -1,0 +1,308 @@
+This Documents explains the following concepts
+	1. Scheduling
+	2. Labels and Selectors
+	3. Taints and Tolerants
+	4. Node Selectors
+	5. Node Afinity
+	6. Resource Requirements and Limits
+	7. DaemonSets
+	8. Static PODS
+	9. Multiple Schedulers
+	
+--------------------------------------------------------------
+Scheduling 
+This scheduling is used to schedule the pod or place the pod in the respective Node.
+The yaml format of node scheduling  would look like
+
+By default in AWS EKS, the privated DNS name is used. To get the node name we can use 
+kubectl get nodes -> This will display the node name
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+  labels:
+    app: myapp
+    dep: prod
+spec:
+  containers:
+  - name: nginx-container
+    image: nginx:latest
+  nodeName: node02
+------------------------------------
+
+Labels and selectors
+This Labels and selectors helps to identify and distinguish the pods classification
+if there are amy pods running with different lables we can query respective pod with their attached lables as by query below
+
+>kubectl get pods --selector app=myapp
+
+The selectors  are used in the yaml file mostly on connecting the replicas and the pods in the spec section
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: myapp-pod-rc
+  labels:
+    app: myapp-RC
+    dep: prod-RC
+spec:
+  template:
+    metadata:
+      name: myapp-rc-template
+      labels:
+        app: RC-template
+        dep: Finance-Dep
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx:latest
+  replicas: 4
+  selector:
+    matchLabels:
+      dep: Finance-Dep
+	  
+-------------------------------------------------------------------------------
+Taints and Tolerations
+Will explain what pod has to be placed on what nodes with taints and tolerants
+
+Taint is added to node  though kubectl command
+Tolleration is added to POD though pod.yaml files
+
+Example Tain command
+> kubectl taint nodes node-name key=value:taint-effect
+
+There are three kind of taint-effect
+	1. NoSchedule -> the pod will not get placed or scheduled in node
+	2. PreferNoSchedule -> The system will try to avoid placing the POD on the node and that is not guranteed
+	3. NoExecute -> The New pods will not get placed on scheduled in the node and the existing pod which is already placed in the node will be evicted or removed from node if they do not tolerate the taint -> means PODS is killed
+	
+
+Example:
+kubectl taint nodes node-name app=myapp:NoSchedule
+kubectl taint nodes node-name app=myapp:PreferNoSchedule
+kubectl taint nodes node-name app=myapp:NoExecute
+
+Now this toleration has to be in updated in the yaml file as shown in below yaml file
+NOTE the tolerants values  should all be in double quotes
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+  labels:
+    app: myapp
+    dep: prod
+spec:
+  containers:
+  - name: nginx-container
+    image: nginx:latest
+  tolerations:
+  - key: "app"
+    operator: "Equal"
+	value: "blue"
+	effect: "NoSchedule"
+	
+INTERVIEW QUESTION
+Q: Why Master node is not hosting any PODS
+Ans:By default master node is tainted with NoSchedule effect so no pods get placed there. Master node is for orchestration and management	
+	
+	
+-----------------------------------------------------------------	
+
+Node Selectors
+Place the pods based on the VM capacity resources like CPU, memory on how much the pods used to take the capacity for running.
+This can be done by using "Node selector" concept.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+  labels:
+    app: myapp
+    dep: prod
+spec:
+  containers:
+  - name: nginx-container
+    image: nginx:latest
+  nodeSelector:
+    size: large
+The "NodeSelector" selects the node based on the label concept as what label we have specified for the node
+
+kubectl label node <node-name> <label-key>=<label-value>
+kubectl label node node-1 size=large
+
+LIMITATIONS: We can not perform Logic operation (AND, OR, NOT) in choosing the node selector like Size=large OR Size=small. 
+But This can be achived by Node Afinity which is explained 
+
+--------------------------------------------------------------------------------
+
+Node Affinity
+
+Refrence: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/
+
+Required during scheduling and ignored during Execution and required during Execution is detailedly explained in below link
+https://medium.com/the-programmer/working-with-node-affinity-in-kubernetes-40bc79d16f2f
+requiredDuringSchedulingIgnoredDuringExecution
+preferredDuringSchedulingIgnoredDuringExecution
+requiredDuringSchedulingRequiredDuringExecution
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: with-node-affinity
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/os
+            operator: In
+            values:
+            - linux
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 1
+        preference:
+          matchExpressions:
+          - key: another-node-label-key
+            operator: In
+            values:
+            - another-node-label-value
+  containers:
+  - name: with-node-affinity
+    image: k8s.gcr.io/pause:2.0
+
+DuringScheduling -> This is during POD creation
+Type 1->		->"Required" -> The pod is created for first time and strictly check for affinity rule. If rule is not satisfied or found the pod will not be placed in node.
+Type 2->		->"Prefered" -> The pod is created for first time and doesn't strictly check for the affinity rule. Eventhough the rule is not satisfied it will place the pod in any node
+Type 3->(Newly introuduced)  ->"Required" -> The pod is created for first time and strictly check for affinity rule. If rule is not satisfied or found the pod will not be placed in node.
+During Execution -> This is during the pod running state /Already running state.
+Type 1-> 		->"Ignored" -> The Pods will continue to run and any changes in node affinity will not impact them once it has been scheduled. ie; its keeps running even if there is any afinity rule change.
+Type 2->		->"Ignored" -> The Pods will continue to run and any changes in node affinity will not impact them once it has been scheduled. ie; its keeps running even if there is any afinity rule change.
+Type 3->		->"Required" -> The pod will be removed or terminated from the node.
+
+--------------------------------------------------------
+
+Resource Requirements and Limits
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+  labels:
+    app: myapp
+    dep: prod
+spec:
+  containers:
+  - name: nginx-container
+    image: nginx:latest
+  resources:
+	requests:   // This is used to specify how many CPU and memory the POD can use
+	  memory: "1Gi"
+	  cpu: 1
+	limits:     // By default the k8s has limits in memory and CPU, We can Increase it by specifying the limit options
+	  memory: "2Gi"
+	  cpu: 2
+	  
+If the POD CPU request increase more than the specified limit then it will have THROTTLE issue.
+This is not the case for memory. The container/POD can use more memory than the resources. And if POD memory is constantly increasing then the pods will get killed/Terminated.
+
+/////////////////////////////////
+In the previous lecture, I said - "When a pod is created the containers are assigned a default CPU request of .5 and memory of 256Mi". For the POD to pick up those defaults you must have first set those as default values for request and limit by creating a LimitRange in that namespace.
+
+
+
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: mem-limit-range
+spec:
+  limits:
+  - default:
+      memory: 512Mi
+    defaultRequest:
+      memory: 256Mi
+    type: Container
+https://kubernetes.io/docs/tasks/administer-cluster/manage-resources/memory-default-namespace/
+
+
+
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: cpu-limit-range
+spec:
+  limits:
+  - default:
+      cpu: 1
+    defaultRequest:
+      cpu: 0.5
+    type: Container
+https://kubernetes.io/docs/tasks/administer-cluster/manage-resources/cpu-default-namespace/
+
+
+
+References:
+
+https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource
+////////////////////////////////
+
+--------------------------------------------
+Daemonset
+A daemonset is same like replica set in which the daemonset is used to place atleast one copy of POD on each node.
+Whenever a new node joins the network the daemon set automatically places the copy of the POD in the new node. And POD get terminated when node is removed.
+ 
+Usecase: For example if you want to implement any Log-Collector agent in the new node automatically the daemonset can be used.
+
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: myapp-pod-DS-monitoring
+  labels:
+    app: myapp-RC-monitoring
+    dep: prod-RC-monitoring
+spec:
+  template:
+    metadata:
+      name: myapp-rc-template
+      labels:
+        app: RC-template
+        dep: Finance-Dep
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx:latest
+  
+  selector:
+    matchLabels:
+      dep: Finance-Dep
+
+The yaml is same as replicaset. Make sure that labels in the POD template is matching the lables in the selector 
+once This is ready you can use 
+
+>kubectl create -f <daemonset.yaml>
+>kubectl get daemonsets
+>kubectl describe daemonsets myapp-pod-DS-monitoring
+>kubectl get ds --all-namespaces
+--------------------------------------------------------------
+Static Pods
+This is of deploying the POD without api-server, scheduer, master.
+Kubelet can alone able to create a pod on host by placing the pod-definition file in a directory.
+We can create only pod but not daemon set or replica set
+Explained in video
+--------------------------------------------------------------
+
+Multiple Schedulers
+This is used to deploy our own schedulers as a service/pod in a node.
+Then will ask pod to use this scheduler by defining in pod-definition.yaml file.
+Explained in videos
+
+To know which scheduler picks the pod we can use "event" command
+>kubectl get events
+
+To view the logs of the scheduler 
+>kubectl logs my-custom-scheduler --name-space=kube-system
+-------------------------------------------------
+
+

@@ -138,3 +138,16 @@ To remove the node from the Cluster or Master use the following code
 >kubectl drain <node name>
 Then
 >kubectl uncordon <node name>
+
+-------------------------------------------
+To label a node
+kubectl label node <node-name> <label-key>=<label-value>
+kubectl label node node-1 size=large
+
+---------------------------------
+Kubectl daemon sets
+
+>kubectl create -f <daemonset.yaml>
+>kubectl get daemonsets
+>kubectl describe daemonsets myapp-pod-DS-monitoring
+>kubectl get ds --all-namespaces
