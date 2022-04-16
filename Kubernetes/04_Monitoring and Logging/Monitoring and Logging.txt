@@ -1,0 +1,21 @@
+04_Monitor and Logging k8s 
+
+Monitor
+Node level metrics -> no.of nodes CPU, Memory etc
+POD level metrics -> no.of pods and performace metrics of each pods
+
+There are many open source monitoring tool for k8s like prometus, datadog, 
+
+The KUBELET has the cAdvisior service which collects the perfromace metrics from PODS and make available through kubelet command
+
+we can download metric-server from GIT  and deploy as pod.
+Once the metric-server pod is deployed we can use the follwoing command to get metric details
+git clone metric-server
+kubectl crete -f .
+>kubectl top node  // to get cpu and memory usage of node
+>kubectl top pod // to get CPU and memory usage of POD
+
+
+----------------------------
+
+Logging

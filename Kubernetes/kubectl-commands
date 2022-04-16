@@ -151,3 +151,18 @@ Kubectl daemon sets
 >kubectl get daemonsets
 >kubectl describe daemonsets myapp-pod-DS-monitoring
 >kubectl get ds --all-namespaces
+--------------------------------------
+we can download metric-server from GIT  and deploy as pod.
+Once the metric-server pod is deployed we can use the follwoing command to get metric details
+git clone metric-server.git
+kubectl crete -f .
+>kubectl top node  // to get cpu and memory usage of node
+>kubectl top pod // to get CPU and memory usage of POD
+---------------------------
+Logging
+To view the logs of the POD
+>kubectl logs -f <POD-NAME>  //-f to stream pods continiously
+
+If there is more containers in PODS and to view the Logs of that container we should provide the container name 
+>kubectl logs -f <POD-NAME>  <Container-name>
+-----------------------------------------
