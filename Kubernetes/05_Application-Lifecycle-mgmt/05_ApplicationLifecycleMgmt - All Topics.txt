@@ -19,3 +19,77 @@ Commands and Arguments
 More details and screenshot in word documentation "commands and Arguments"
 
 
+------------------------------
+Environment Variable in k8s
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+  labels:
+    app: myapp
+    dep: prod
+spec:
+  containers:
+  - name: nginx-container
+    image: nginx:latest
+  env:
+  - name: APP_TEAM
+    value: finance
+	
+
+Environment Variable configMap
+If there is more number of pod and more number of variable deploying those things in k8s-definition file will be difficult.
+So that we can use the configmap -> ConfigMap is a separate file  which are reference to the pod-definition file
+ 1. Create a config mao
+ 2. Inject it to the POD
+
+Create config map in imperative way
+>kubectl create configmap <config-map-name> --from-literal=APP_COLOR=blue --from-literal=APP_OWNER=finance
+The above would be difficult in adding more env variable. So that we can pass the ev variable as files as shown below
+> kubectl create configmap <config-name> --from-file=<path-to-file>
+> kubectl create configmap <config-name> --from-file=app_config.properties
+
+configmap.properties file contains
+APP_COLOR=blue
+APP_OWNER=finance
+
+Creating configmap in declarative way
+apiVersion: v1
+kind: configMap
+metadata:
+	name: app-config
+data:
+	APP_NAME: billing
+	APP_TEAM: finance
+	
+kubectl create -f config-map.yaml
+
+NOTE: You can have as many config map as you want like for fromtend , mysql, redis and so on.
+
+>kubectl get configmaps
+>kubectl describe configmaps
+
+Configuring the config map to the POD definition file --> IMPORTANT
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+  labels:
+    app: myapp
+    dep: prod
+spec:
+  containers:
+  - name: nginx-container
+    image: nginx:latest
+  envFrom:
+  - configMapRef:
+		name: app-config // This  is the name from configMap file mentioned in metadata
+		
+
+To Ingest single env varaible we can use
+envFrom:
+  - configMapKeyRef:
+		name: app-config //This  is the name from configMap file mentioned in metadata
+		key: APP_COLOR
+-----------------------------------------------------------------

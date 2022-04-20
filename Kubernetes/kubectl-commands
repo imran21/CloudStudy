@@ -166,3 +166,9 @@ To view the logs of the POD
 If there is more containers in PODS and to view the Logs of that container we should provide the container name 
 >kubectl logs -f <POD-NAME>  <Container-name>
 -----------------------------------------
+
+Configmap
+>kubectl get configmaps
+>kubectl get cm
+>kubectl describe configmaps
+>kubectl create -f config-map.yaml
