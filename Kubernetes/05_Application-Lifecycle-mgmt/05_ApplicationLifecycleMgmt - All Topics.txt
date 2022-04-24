@@ -92,4 +92,117 @@ envFrom:
   - configMapKeyRef:
 		name: app-config //This  is the name from configMap file mentioned in metadata
 		key: APP_COLOR
------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------
+
+Secrets  and secrets in variables in K8s
+For example storing password for mysqlDB. Configmap is literally a key-value pair and it will show the information.
+
+Two steps in creating secrets
+	1. Create a secret
+	2. Inject it to POD
+
+Imperative method of creating secret.
+>kubectl create secret generic
+
+>kubectl create secret generic <secret-name> --from-literal=APP_COLOR=blue --from-literal=APP_OWNER=finance
+The above would be difficult in adding more secret variable. So that we can pass the secret env variable as files as shown below
+> kubectl create secret generic <secret-name> --from-file=<path-to-file>
+> kubectl create secret <secret-name> --from-file=app_config.properties
+
+
+Declarative method of creating secret
+>Kubectl create -f <key-definition>.yaml
+
+Creating secret in declarative  --> IMPORTANT
+apiVersion: v1
+kind: Secret
+metadata:
+	name: app-secret
+data:
+	DB_USER_NAME: billing //It has to be in a hashed encoded format
+	DB_HOST: finance.com
+	DB_PASSWD: passwd  //It has to be in a hashed encoded format
+	
+How to convert plain text to encoded format? Please follow the below linux command
+>echo -n 'password' | base64
+TO Decode the value use the following command
+>echo -n 'encoded-value' | base64 --decode
+
+
+>kubectl get secrets
+>kubectl describe secrets
+TO view the secret values as well
+>kubectl get secret app-secret -o yaml -> This will display the secret value as well.
+
+
+Configuring the secret map to the POD definition file --> IMPORTANT
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+  labels:
+    app: myapp
+    dep: prod
+spec:
+  containers:
+  - name: nginx-container
+    image: nginx:latest
+  envFrom:
+  - secretRef:
+		name: app-secret
+
+To Ingest single secret env varaible we can use
+envFrom:
+  - name: DB_PASSWORD
+	valueFrom:
+	 secretKeyRef:
+		name: app-secret //This  is the name from secret file mentioned in metadata
+		key: DB_PASSWD //Key name in that definition file (refer above secret-Defenition file)
+		
+		
+---------------------------------------------------------------------------------------------------
+
+Multi container PODS ie; multi container in one pod
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+  labels:
+    app: myapp
+    dep: prod
+spec:
+  containers:
+  - name: nginx-container
+    image: nginx:latest
+	ports:
+	  - containerPort: 8080
+  - name: console-container
+    image: console:latest
+	ports:
+	  - containerPort: 8085
+  - name: polyglot-container
+    image: polyglot:latest
+	ports:
+	  - containerPort: 8086
+--------------------------------------------------------------------------------
+INIT Containers (initContainer)
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+  labels:
+    app: myapp
+spec:
+  containers:
+  - name: myapp-container
+    image: busybox:1.28
+    command: ['sh', '-c', 'echo The app is running! && sleep 3600']
+  initContainers:
+  - name: init-myservice
+    image: busybox
+    command: ['sh', '-c', 'git clone <some-repository-that-will-be-used-by-application> ; done;']
+
+
