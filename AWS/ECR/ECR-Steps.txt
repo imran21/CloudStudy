@@ -15,4 +15,4 @@ Step 4: Docker push URL.com<Repo>/repo-name:<tag as 1.1, 1.2 or git build number
 DevOpsBest pratice.
 For CI/CD activity kind of deployment, please have an separate VM machine installed as slave node.
 In that machine please pre configure Aws credentials and docker ECR credentials (docker credentials as mentioned in ECR and below)
-aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 120763833592.dkr.ecr.us-east-1.amazonaws.com
+aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin 120763833592.dkr.ecr.us-east-1.amazonaws.com
