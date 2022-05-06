@@ -1,0 +1,132 @@
+ip link // to display list of interface
+ip addr // to list IP address assigned to interface
+ip addr add <ip-address> dev <interface-name, eth0> // assigning IP address to new network interface
+route  // Display the routing table
+
+how System in one network can able to communicate with system in another network
+Ans: Through Router.
+
+TO add entries to route table
+ip route add <Destination-CIDR> via <router-or-Gatway-IP-address>
+
+If we want our system to communicate to internent then add the local or internal router to the internent then configure route table on each machine.
+ip route add <Internet-destination-cidr> via  <router-or-Gatway-IP-address>
+ip route add <default or 0.0.0.0> via  <router-or-Gatway-IP-address>
+
+Packet forwarding is not happend by default between different systems
+To get the req and response success message between the systems on different network we need to edit the following file and change 0 to 1
+> cat /proc/sys/net/ipv4/ip_forward
+
+This above modification will get reverted back once system get rebooted. To make this permanently effective need to edit  /etc/sysctl.conf file
+net.ipv4.ip_forward = 1
+
+-----------------------------------------------------------------------
+DNS
+To add Name to the host ip address edit /etc/hosts and enter the ip address and host name
+192.168.1.10 db-vm1
+192.168.1.11 db-vm2
+192.168.1.13 db-vm3
+
+if there is more number of nodes and its IP then it will be verry difficult to manage.
+To solve this problem, the cerntralized DNS came to picture. It is different concept  but we can leran little bit to know the which would be easy for CORE DNS
+
+on each node under /etc/resolv.conf entere the nameserver name and its IP address.
+nameserver 190.0.0.1
+
+so on doing ping db-vm1 it will search the DNS server and ping the respective VM
+
+/etc/nsswitch.conf -> this is used to set on which order the resolver should check the file, The below entries explains that it has to check the 'hosts' file first then the 'dns' server
+hosts: files dns
+
+----------------------------------
+Section-188
+Network NameSpace
+
+To create a new network namesapce
+ip netns add red
+ip netns add blue
+
+TO list network name spaces
+ip netns
+
+Normally 'ip link' command will display the default network interface  of the system
+
+to View the our NameSpace with ip link then execute the following
+>ip netns exec red ip link
+The above ip link command will be executed within the red namespace
+
+If you need to execute any network command inside the namesapce you have to do as said in above/below step
+>ip netns exec red arp
+
+TO make communication between two nework name spaces  like connecting two machine with Lan cable, here we call it as virtual cable or veth
+Step 1: create two veth for red and blue
+		> ip link add veth-red type veth peer name veth-blue // veth-red is connected to veth-blue
+		
+		To delete the virtualcable or veth
+		> ip -n red link  del veth-red // When one end is deleted the other end is automatically deleted
+Step 2: Attach each interface to the respective namespace
+		> ip link set veth-red netns red
+		> ip link set veth-blue netns blue
+Step 3: Now add the IP address to each name spaces
+		> ip -n red addr add 192.168.55.1 dev veth-red
+		> ip -n blue addr add 192.168.55.2 dev veth-blue
+Step 4: Now bring both the veth up
+		> ip -n red link set veth-red up
+		> ip -n blue link set veth-blue up
+Step 5: (Validation)Now if you ping the blue namesapce from red namesapce, it has to ping
+		> ip netns exec red ping 192.168.15.2
+        It has to ping
+Step 6: (validation) if w e check the arp of red namespace it will display all its connected namespaces
+		>ip netns exec red arp // display the blue namesapce ip
+		>ip netns exec blue arp // display the red namesapce ip
+		
+
+For 2 network namespaces it is fine. When it comes to more number of namesapce then we have to create virtual switch and connect the namesapce to the switch
+
+In Linux the  virtual switch is called as  'Bridge Network'
+Step 1: To create a Bridge network in a host 
+		>ip link add v-net-0 type bridge
+		
+		Assign IP address to v-net-0 switch
+		>ip addr add 192.168.15.5/24 dev v-net-0
+
+		if you try ip link command it will list out the 'v-net-0' interfaces along with other interfaces
+		>ip link
+
+Step 2: Once it has been created it has to be bring it up by executing the below command
+		>ip link set dev v-net-0 up
+
+Stpe 3: Now we need to attach the namespace to the Virtual switch
+		NOTE: Before attaching, if one name space is connected to another namesapce with veth , then we have to delete that as shown above
+
+		To create new cable to attach namespaces to the vitual swith/ new interface (Explained in section 188 v:7:35)
+		>ip link add <namespace-veth-name> type veth peer name <name-of-veth-to-be-attached-to-switch >
+		>ip link add veth-red type veth peer name veth-red-br
+         For blue
+		>ip link add veth-blue type veth peer name veth-blue-br
+		
+Step 5: Attach the red cable to red namesapce and the other end to virtual-swith
+		>ip link set veth-red netns red
+		>ip link set veth-red-br master v-net-0
+		
+		Now do the same thing for blue network
+		>ip link set veth-blue netns blue
+		>ip link set veth-blue-br master v-net-0
+Step 6: Now we need to add IP address to the namespaces
+		>ip -n red addr add 192.168.55.1 dev veth-red
+		>ip -n blue addr add 192.168.55.2 dev veth-blue
+Step 7: Now we need to bring up the namespaces
+		>ip -n red link set veth-red  up
+		>ip -n blue link set veth-blue up
+		
+
+
+The above network is completely private
+
+
+
+
+
+
+
+
