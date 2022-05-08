@@ -119,9 +119,17 @@ Step 7: Now we need to bring up the namespaces
 		>ip -n red link set veth-red  up
 		>ip -n blue link set veth-blue up
 		
+NOTE: The above network is completely private. Inorder to make the private VM communicate to the outside world we need to add NAT gateway.
+> iptables -t nat -A POSTROUTING -s 192.168.15.0/24 -j MASQUERADE
+Now the private netwrk can able to communicate to the outsde world
+> ip netns exec blue ping <another node-IP>
+
+The ABOVE one is broad topic I have covered only video timeline 13.17 of video 188  still little more is there and need pratical on it.
+If any ping issue check video 189 NOTE
+----------------------------------------------------------------------------------------------
 
 
-The above network is completely private
+ 
 
 
 

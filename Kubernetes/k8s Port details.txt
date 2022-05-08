@@ -1,0 +1,15 @@
+
+PORTS to be opened for k8s master and worker nodes
+k8s Master
+ETCD-Server	 : 2379
+ETD-Client	 : 2380
+kube-api : 6443
+kubelet	 : 10250
+kube-scheduler : 10251
+kube-controller-manager : 10252
+
+
+k8s Worker nodes
+Services  : 30000-32767
+kubelet   :	10250
+
