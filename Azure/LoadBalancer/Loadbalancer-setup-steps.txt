@@ -1,0 +1,28 @@
+Azure Noraml LoadBalamcer stup steps
+Step 1: create VPC-virtual-network and subnet
+Step 2: Create Network security group(NSG)
+Step 3: Attach NSG to pub-subnet
+Step 4: Create 2 VM
+			NOTE: Select 'Public inbound ports' to 'None'
+				  Makesure NIC is disabled in network tab 'NIC network security group'
+Step 4: Create a Load balancer and assign IP
+		LB Tier: Regional
+		LB SKU: Standard
+		Tier	: Regional
+		IMPORTANT NOTE: While creating public front-end IP address please select 'Internet' option. Then only it will able to communicate to internet
+				
+Step 5: Create backend-pool and attach backend VMs
+Step 6: Create an Healthcheck probe
+				Protocol: TCP
+				Port: 80
+Step 7: Create Loadbalancer Rule,
+			Session presistent: None -> this option is not to specify stickiness in LB
+			
+Step 8: (Optional) Adding InBound NAT rule.
+		Adding inbound NAT rule helps to communicate to VM individually (which is behind the Load balabcer) on different port through LB IP 
+		Frontendport: Give any random port which shouldn't be configured configured in lb rules
+		Back end port: Give port 22 if you want to connect to the VM through SSH
+		
+		Do the same thing for other VM as well. Do this individually for each VM by seleting Type=Azure Virtual Machine
+	
+ON subnetlevel Network security group, Allow necessary ports

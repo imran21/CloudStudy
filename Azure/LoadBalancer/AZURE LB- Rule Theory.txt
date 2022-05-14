@@ -1,0 +1,29 @@
+
+
+
+AZURE LB- Rule Theory
+Session presistance in azure LB rule is like session stickines in AWS LB
+if you select 'None' it involves five tuples
+	- Source Port
+	- Destination Port
+	- Protocol (TCP,UDP)
+	- Source IP
+	- Destination IP
+NOTE: if you are selecting 'None' then you are disabling stickness, The traffic may go to any healthy VM. It will consider all the 5 tuples.
+
+If you select Client IP then it is source affinity ie; 2 tuples	(Choose this for sticky session)
+	- Source IP
+	- Destination IP
+Client IP (2-tuple) - Specifies that successive requests from the same client IP address will be handled by the same backend instance.
+
+If you select 'Client IP and Protocol' then it is 3 tuples (Choose this for sticky session)
+	- Protocol (TCP,UDP)
+	- Source IP
+	- Destination IP
+Client IP and protocol (3-tuple) - Specifies that successive requests from the same client IP address and protocol combination will be handled by the same backend instance.
+	
+
+	
+Reference:
+https://social.technet.microsoft.com/wiki/contents/articles/51997.azure-configure-load-balancer-for-sticky-sessions.aspx
+https://docs.microsoft.com/en-us/azure/load-balancer/distribution-mode-concepts
