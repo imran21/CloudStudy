@@ -1,0 +1,7 @@
+sudo yum -y install epel-repo
+sudo yum -y update
+#on other centos 
+sudo yum -y install ansible
+#On Amazon-linux execute the following command
+sudo amazon-linux-extras install ansible2 -y
+ansible --version
