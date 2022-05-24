@@ -114,6 +114,31 @@ Ansible Archive zip tar the directory
     dest: /path/to/foo.tgz
 Note: More examples in the document link https://docs.ansible.com/ansible/2.5/modules/archive_module.html
 
+Ansible COPY from remote to local
+tasks:
+- name: ansible copy file from remote to local.
+  fetch:
+	src: /root/devops/target.txt
+	dest: /root/jboss/
+	
+- name: fetch nginx access log
+  fetch:
+    src: /var/log/nginx/access.log
+    dest: fetched
+The Fetched hirerachy would be like this
+
+fetched
+├── 123.123.123.123
+│   └── var
+│       └── log
+│           └── nginx
+│               └── access.log
+└── 234.234.234.234
+    └── var
+        └── log
+            └── nginx
+                └── access.log
+
 ----------------------
 Writing to a file
 ---
@@ -142,5 +167,43 @@ Demo-sample-script (ip-take.sh)
 #! /bin/bash
 	ip4=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)
 	echo $ip4 >> ip.txt
+------------------------
 
+- name: replace line
+    lineinfile: 
+      path: /home/ec2-user/ 
+      regexp: '^%Dove' 
+      line: 'option domain-name-servers 10.116.184.1,10.116.144.1,10.116.136.1;'
+      backrefs: yes
 
+lineinfile:
+    path: /etc/sudoers
+    state: absent
+    regexp: '^%wheel'
+-----------------------------------------------
+Replace a line in yaml
+---
+- name: execute script on remote machine
+  hosts: AS
+  become: true
+  become_user: root
+  gather_facts: true
+  tasks:
+  - name: replace line
+    replace:
+     path: /home/ec2-user/bird.txt
+     regexp: '^dove'
+     replace: 'dove123'
+--------
+
+   lineinfile:
+      path: example.conf
+      regexp: '^{{item.key}}:'
+      line: "{{item.key}}: {{item.value}}"
+    with_dict: {name: Michael, age: 31, city: San Francisco}
+	
+ - name: linein file module
+    lineinfile:
+     path: /home/ec2-user/bird.txt
+     regexp: '^port=4200'
+     line: 'port=4300'
