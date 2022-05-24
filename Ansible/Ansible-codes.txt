@@ -1,0 +1,146 @@
+ansible <hostname> -m ansible.builtin.setup
+ansible AS -m ansible.builtin.setup
+
+To validate playbook syntax
+ ansible-playbook ansi.yml --syntax-check
+
+
+------------------------
+---
+- name: Install httpd
+  hosts: AS
+  become: true
+  become_user: root
+  gather_facts: true
+  tasks:
+    - name: Install httpd
+      yum:
+        name: httpd
+        state: present
+    - name: Install telnet
+      yum:
+        name: telnet
+        state: present
+
+----------------------
+---
+- name: Delete httpd
+  hosts: AS
+  become: true
+  become_user: root
+  gather_facts: true
+  tasks:
+    - name: Delete httpd
+      yum:
+        name: httpd
+        state: absent
+    - name: Delete telnet
+      yum:
+        name: telnet
+        state: absent
+-----------------------------
+
+Ansible file and Directory
+ - name: Creates directory
+    file:
+      path: /home/ec2-user/demo-ansi-1
+      state: directory
+  - name: Delete directory
+    file:
+      path: /home/ec2-user/demo-ansi-1
+      state: absent
+note: STATE: TOUCH | DIRECTORY | ABSENT
+
+- name: Creates directory
+  file:
+    path: /src/www
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: 0775
+	
+	Even, you can create the directories recursively:
+
+- name: Creates directory
+  file:
+    path: /src/www
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: 0775
+    recurse: yes
+	
+Ansible create file
+ - name: Ansible create file if it doesn't exist example
+    file:
+      path: "/Users/mdtutorials2/Documents/Ansible/devops_server.txt"
+      state: touch
+---
+
+- hosts: all
+  tasks:
+  - name: Create multiple files
+    file: 
+      path: "{{ item }}"
+      state: touch
+    with_items:
+    - test01.txt
+    - test02.txt
+    - test03.txt
+    - test04.txt
+	owner: www-data
+    group: www-data
+    mode: 0775
+	
+Ansible Copy file from local to remote
+- hosts: targetserver
+  tasks:
+    - copy:
+        src: /users/rolando/myfile
+        dest: /users/rolando/myfile 
+		
+ - name: Copy file from local to destination and change file permission
+    copy:
+      src: /home/ec2-user/a1.txt
+      dest: /home/ec2-user/demo-ansi-1/
+      owner: ec2-user
+      group: ec2-user
+      mode: 0777
+
+Ansible Archive zip tar the directory
+- name: Compress directory /path/to/foo/ into /path/to/foo.tgz
+  archive:
+    path: /path/to/foo
+    dest: /path/to/foo.tgz
+Note: More examples in the document link https://docs.ansible.com/ansible/2.5/modules/archive_module.html
+
+----------------------
+Writing to a file
+---
+
+- hosts: all
+  tasks:
+  - name: Creating a file with content
+    copy:
+      dest: "/your path"
+      content: |
+        line 01
+        line 02
+		
+---------------------------------------------
+Executing the local script file on Remote machine
+---
+- name: execute script on remote machine
+  hosts: AS
+  become: true
+  become_user: root
+  gather_facts: true
+  tasks:
+    - script: ip-take.sh
+	
+Demo-sample-script (ip-take.sh)
+#! /bin/bash
+	ip4=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)
+	echo $ip4 >> ip.txt
+
+

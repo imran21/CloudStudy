@@ -1,0 +1,4 @@
+Azure  TO add an public-IP to an existing VM
+Click on VM->Select Networking->Click on Network-interface->IP configuration->click on ipconfig1 -> Now associate an public IP
+
+
