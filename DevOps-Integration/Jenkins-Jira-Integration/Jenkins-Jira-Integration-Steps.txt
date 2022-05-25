@@ -1,0 +1,20 @@
+To Integrate the jenkins with JIRA follow the steps in order
+DOC-2
+DOC-1
+DOC-3
+
+Once done, Execute the follwoing pipeline code to check if it could able to post comment to JIRA issue
+
+node {
+  stage('JIRA') {
+    withEnv(['JIRA_SITE=apptium.atlassian.net']) {
+      def comment = [ body: 'test comment' ]
+      jiraAddComment idOrKey: 'DO-1205', input: comment
+    }
+  }
+}
+
+This has worked for me.
+
+
+ 
